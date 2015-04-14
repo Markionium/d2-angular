@@ -1,6 +1,6 @@
-data-dictionary app for DHIS2
+d2-angular for DHIS2
 
-[![Build Status](https://travis-ci.org/Markionium/data-dictionary.svg)](https://travis-ci.org/Markionium/data-dictionary)
+[![Build Status](https://travis-ci.org/Markionium/d2-angular.svg)](https://travis-ci.org/Markionium/d2-angular)
 
 ========
 

@@ -1,0 +1,55 @@
+.d2-button {
+  background-color: $default-bg-color;
+  box-shadow: none;
+  border: none;
+  border-radius: .25em;
+  color: $default-text-color;
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 2rem;
+  outline: none;
+  padding: $input-padding;
+  text-align: left;
+  text-decoration: none;
+  text-transform: none;
+  position: relative;
+  overflow: hidden;
+
+  i + span {
+    padding-left: 5px;
+  }
+
+  i + span:empty {
+    padding-left: 0px;
+  }
+
+  &:hover {
+    background: $default-hover-bg-color;
+    color: $default-hover-text-color;
+  }
+
+  &:active, &:active {
+    outline: none;
+  }
+
+  &.d2-fab {
+    transition: $focus-transition;
+    box-shadow: $shadow-z1;
+    height: 36px;
+    width: 36px;
+    border-radius: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    z-index: $z-index-fab;
+  }
+
+  &.d2-fab-lg {
+    @extend .d2-fab;
+    font-size: 1.5rem;
+    height: 50px;
+    width: 50px;
+  }
+}

@@ -1,0 +1,77 @@
+// Frames
+.frame-z1 {
+  box-shadow: $shadow-z1;
+  z-index: 1;
+}
+
+.frame-z2 {
+  box-shadow: $shadow-z2;
+  z-index: 2;
+}
+
+.frame-z3 {
+  box-shadow: $shadow-z3;
+  z-index: 3;
+}
+
+.frame-z4 {
+  box-shadow: $shadow-z4;
+  z-index: 4;
+}
+
+.frame-z5 {
+  box-shadow: $shadow-z5;
+  z-index: 5;
+}
+
+// Color styles
+.d2-color-default {
+  background-color: $default-bg-color;
+  color: $default-text-color;
+}
+
+.d2-color-primary {
+  background-color: $primary-bg-color;
+  color: $primary-text-color;
+}
+
+.d2-color-success {
+  background-color: $success-bg-color;
+  color: $success-text-color;
+}
+
+.d2-color-error {
+  background-color: $error-bg-color;
+  color: $error-text-color;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+}
+
+button, a, li {
+  &.d2-color-default:hover {
+    background-color: $default-hover-bg-color;
+    color: $default-hover-text-color;
+  }
+
+  &.d2-color-primary:hover {
+    background-color: $primary-hover-bg-color;
+    color: $primary-hover-text-color;
+  }
+
+  &.d2-color-success:hover {
+    background-color: $success-hover-bg-color;
+    color: $success-hover-text-color
+  }
+
+  &.d2-color-error:hover {
+    background: $error-hover-bg-color;
+    color: $error-hover-text-color;
+  }
+}

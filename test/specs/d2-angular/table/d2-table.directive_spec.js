@@ -9,7 +9,7 @@ describe('D2 Table: Table directive', () => {
     let controller;
     let isolatedScope;
 
-    beforeEach(module('d2-angular.table'));
+    beforeEach(angular.mock.module('d2-angular.table'));
     beforeEach(inject(($compile, $rootScope) => {
         element = angular.element(`
             <d2-table column-names="tableOptions.columnNames"

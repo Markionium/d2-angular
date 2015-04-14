@@ -1,5 +1,7 @@
-import d2 from 'd2';
 import angular from 'angular';
+import 'angular-animate';
+
+import d2 from 'd2';
 
 import models from 'd2-angular/models/models.service';
 import modelDefinitions from 'd2-angular/models/model-definitions.service';
@@ -7,6 +9,9 @@ import Api from 'd2-angular/api/Api';
 
 //UI Components
 import 'd2-angular/table/d2-table.module';
+import 'd2-angular/select-from-list/select-from-list.module';
+import 'd2-angular/button/d2-button.module';
+import 'd2-angular/input/d2-input.module';
 
 let isUndefined = angular.isUndefined;
 
@@ -19,25 +24,31 @@ function continueBootstrap(appName, extraDependencies = []) {
 
 function logBootstrapError(e) {
     console.error('Error during bootstrap process');
-    console.trace(e.trace);
     console.error(e.message);
 }
 
 function buildD2AngularModule(d2) {
     //Global d2 angular module
-    angular.module('d2', []).factory('d2', () => d2);
+    angular.module('d2', ['d2.api', 'd2.models']).factory('d2', () => d2);
 
     //D2 models
-    angular.module('d2.models', ['d2']);
+    angular.module('d2.models', []);
     angular.module('d2.models').factory('models', models);
     angular.module('d2.models').factory('modelDefinitions', models);
 
-    angular.module('d2.api', ['d2']);
+    angular.module('d2.api', []);
     angular.module('d2.api').factory('Api', () => {
         return Api;
     });
 
-    angular.module('d2-angular', ['d2', 'd2-angular.table']);
+    angular.module('d2-angular', [
+        'ngAnimate',
+        'd2',
+        'd2-angular.table',
+        'd2-angular.button',
+        'd2-angular.input',
+        'd2-angular.select-from-list'
+    ]);
 }
 
 function initLibrary(options) {

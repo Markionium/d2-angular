@@ -60,7 +60,7 @@ function d2TableDirective($q) {
             <div class="d2-table">
                 <div class="mask">
                     <div ng-show="tableCtrl.isLoading" layout="row" layout-sm="column" layout-align="space-around">
-                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                        Loading...
                     </div>
                 </div>
                 <table>

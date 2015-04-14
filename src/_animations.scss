@@ -1,0 +1,51 @@
+@-webkit-keyframes ripple-animation {
+  from {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    opacity: 0.4;
+  }
+  to {
+    -webkit-transform: scale(5);
+    transform: scale(5);
+    opacity: 0;
+  }
+}
+@keyframes ripple-animation {
+  from {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(5);
+    -webkit-transform: scale(5);
+    opacity: 0;
+  }
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect-container {
+  border-radius: 100%;
+  display: block;
+  background-color: $ripple-effect-color;
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  opacity: 0.3;
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -ms-transform: scale(0);
+  -o-transform: scale(0);
+  transform: scale(0);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ripple-effect-container.ripple-animate {
+  animation: ripple-animation 1.6s;
+  -webkit-animation: ripple-animation 1.6s;
+}

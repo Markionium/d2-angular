@@ -1,0 +1,18 @@
+.d2-table .context-menu {
+  background: rgba(255, 255, 255, .9);
+  border: 1px solid white;
+  padding: .5rem 1rem;
+  position: fixed;
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  li {
+    a, button {
+      display: block;
+      text-align: left;
+    }
+  }
+}

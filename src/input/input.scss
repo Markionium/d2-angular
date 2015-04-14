@@ -1,0 +1,87 @@
+$input-border-color: rgba(0,0,0,0.26);
+$input-label-color: $input-border-color;
+
+@mixin placeholderColor($value) {
+  ::-webkit-input-placeholder {
+    font-weight: 300;
+    color: $value
+  }
+
+  ::-moz-placeholder {
+    font-weight: 300;
+    color: $value
+  }
+
+  :-ms-input-placeholder {
+    font-weight: 300;
+    color: $value
+  }
+
+  :-moz-placeholder {
+    font-weight: 300;
+    color: $value
+  }
+}
+
+.d2-input {
+  border: solid $input-border-color;
+  border-width: 0 0 1px 0;
+  display: inline-block;
+  position: relative;
+  padding-top: 1rem;
+  margin-top: 1rem;
+
+  label {
+    @include transition($focus-transition);
+    color: $input-label-color;
+    font-size: 1rem;
+    position: absolute;
+    top: 1.3rem;
+    left: 0;
+    padding-left: 2px;
+    z-index: -1;
+    background: transparent;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  input[type="email"] {
+    @include transition($focus-transition);
+    padding: 8px 2px;
+    background: transparent;
+    border: solid transparent;
+    border-width: 0 0 1px 0;
+    outline: none;
+    font-size: 1rem;
+    z-index: 0;
+    -webkit-appearance: none;
+  }
+
+  @include placeholderColor(transparent);
+
+  &.d2-input-focused, &.d2-input-has-content {
+    label {
+      font-size: .8rem;
+      top: 0;
+    }
+
+    @include placeholderColor($input-label-color);
+  }
+
+  &.d2-input-focused {
+    border-color: $primary-bg-color;
+
+    label {
+      color: $primary-bg-color;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    input[type="email"] {
+      border-color: $primary-bg-color;
+      border-width: 0 0 1px 0;
+    }
+  }
+}

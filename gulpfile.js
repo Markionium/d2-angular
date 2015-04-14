@@ -3,7 +3,12 @@ var $ = require('gulp-load-plugins')();
 
 var dhis2Config = require('./gulphelp.js').checkForDHIS2ConfigFile();
 var dhisDirectory = dhis2Config.dhisDeployDirectory;
-var buildDirectory = 'build';
+
+var whenAll = require('rsvp').all;
+var Builder = require('systemjs-builder');
+
+const buildDirectory = 'build';
+const docsDirectory = 'docs';
 
 var files = [
     //Lib files
@@ -19,12 +24,12 @@ var files = [
 ];
 
 /**************************************************************************************************
- * Gulp tasks
+ * d2-angular dev tasks
  */
 
-gulp.task('clean', function () {
+gulp.task('clean', function (cb) {
     var del = require('del');
-    del(buildDirectory);
+    del(buildDirectory, cb);
 });
 
 gulp.task('test', function () {
@@ -63,31 +68,6 @@ gulp.task('scss', function () {
         ));
 });
 
-gulp.task('min', function () {
-    return gulp.src(['src/**/*.*', '!**/*.scss'])
-        .pipe(gulp.dest(buildDirectory));
-
-    //var mangleJS = false;
-    //
-    //var assets = $.useref.assets();
-    //
-    //return gulp.src('src/**/*.html')
-    //    .pipe(assets)
-    //    .pipe(assets.restore())
-    //    .pipe($.useref())
-    //    .pipe($.if('*.css', $.minifyCss()))
-    //    .pipe($.if('**/app.js', $.ngAnnotate({
-    //        add: true,
-    //        remove: true,
-    //        single_quotes: true,
-    //        stats: true
-    //    })))
-    //    //.pipe($.if('*.js', $.uglify({
-    //    //    mangle: mangleJS
-    //    //})))
-    //    .pipe(gulp.dest(buildDirectory));
-});
-
 gulp.task('clean-d2-source', function (cb) {
     var del = require('del');
     del('jspm_packages/npm/d2/*.js', cb);
@@ -98,39 +78,94 @@ gulp.task('copy-d2-source', ['clean-d2-source'], function () {
         .pipe(gulp.dest('jspm_packages/npm/d2'));
 });
 
-gulp.task('deps', function () {
-    return gulp.src([
-            'config.js',
-            'jspm_packages/github/**/*.js',
-            'jspm_packages/github/**/*.css',
-            'jspm_packages/npm/**/*.js',
-            'jspm_packages/npm/**/*.css',
-            'jspm_packages/*.js',
-            'jspm_packages/*.map'
-        ], {base: '.'})
+gulp.task('build-js', ['clean'], function (cb) {
+    var builder = new Builder({});
+
+    builder.loadConfig('./config.js')
+        .then(function (config) {
+            console.log('Config loaded..');
+
+            builder.config({baseURL: './src'});
+
+            var sfxPromise = builder.buildSFX('d2.angular', 'build/d2-angular-sfx.js', {runtime: false})
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            var normalPromise = builder.build('d2.angular', 'build/d2-angular.js', {runtime: false})
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+            whenAll([sfxPromise, normalPromise])
+                .then(function () {
+                    console.log('Build complete');
+                    cb();
+                });
+        });
+});
+
+gulp.task('build-css', function () {
+    return $.rubySass(['./src/d2-angular.scss'], {loadPath: './src', style: 'expanded', compass: true})
+        .on('error', function (err) {
+            console.error('Error!', err.message);
+        })
+        //.pipe($.minifyCss())
         .pipe(gulp.dest(buildDirectory));
 });
 
-gulp.task('copy-images', function () {
+/***********************************************************************************************************************
+ * Document tasks
+ */
+
+gulp.task('docs:clean', function (cb) {
+    var del = require('del');
+    del(docsDirectory + '/build/**/*', cb);
+});
+
+gulp.task('docs', function (cb) {
+    var runSequence = require('run-sequence');
+    runSequence('docs:clean', ['docs:app','docs:deps', 'docs:copy-build', 'docs:images'], cb);
+});
+
+gulp.task('docs:watch', function () {
+    gulp.watch(['src/**/*.js'], ['docs:copy-build']);
+    gulp.watch(['src/**/*.scss'], ['docs:copy-build']);
+    gulp.watch(['docs/app/**/*.*'], ['docs:app']);
+});
+
+gulp.task('docs:copy-build', ['build-js', 'build-css'], function () {
+    return gulp.src([buildDirectory + '/**/*'], {base: './build'})
+        .pipe(gulp.dest(docsDirectory + '/build'));
+});
+
+gulp.task('docs:app', function () {
+    return gulp.src([docsDirectory + '/app/**/*'], {base: './docs/app'})
+        .pipe(gulp.dest(docsDirectory + '/build'));
+});
+
+gulp.task('docs:deps', function () {
+    return gulp.src([
+        'jspm_packages/github/**/*.js',
+        'jspm_packages/github/**/*.css',
+        'jspm_packages/npm/**/*.js',
+        'jspm_packages/npm/**/*.css',
+        'jspm_packages/*.js',
+        'jspm_packages/*.map'
+    ], {base: '.'})
+        .pipe(gulp.dest(docsDirectory + '/build'));
+});
+
+gulp.task('docs:images', function () {
     return gulp.src('src/images/**/*.{jpg,png,gif}', { base: './src/images' })
         .pipe(gulp.dest(
-            [buildDirectory, 'images'].join('/')
+            [docsDirectory, 'images'].join('/')
         ));
 });
 
-gulp.task('build', function (cb) {
-    var runSequence = require('run-sequence');
-    runSequence('clean', 'test', 'scss', 'jshint', 'jscs', 'min', 'copy-images', cb);
-});
-
-gulp.task('copy-app', function () {
-    gulp.src('build/**/*.*', { base: './build/' }).pipe(gulp.dest(dhisDirectory));
-});
-
-gulp.task('copy-to-dev', function (cb) {
-    var runSequence = require('run-sequence');
-    return runSequence('clean', 'copy-d2-source', /*'test',*/ 'scss', /*'jshint', 'jscs',*/ ['min', 'deps'], 'copy-images', 'copy-app', cb);
-});
+/***********************************************************************************************************************
+ * Travis continuous integration tasks
+ */
 
 gulp.task('travis', function () {
     var runSequence = require('run-sequence');

@@ -1,0 +1,54 @@
+// Configuring Susy Defaults
+$susy: (
+        global-box-sizing: border-box,
+        use-custom: (
+                rem: true
+        )
+);
+
+@include border-box-sizing;
+
+.container {
+  @include container;
+  @include clearfix;
+}
+
+.ag1 {
+  @include breakpoint (900px) {
+    @include span(2 of 10);
+
+    .sidenav {
+      position: fixed;
+      height: 100%;
+    }
+  }
+}
+
+.ag2 {
+  @include breakpoint (900px) {
+    @include span(6 of 10 at 2);
+    @include clearfix;
+  }
+}
+
+.ag3 {
+  @include breakpoint (900px) {
+    @include span(2 of 10 last);
+  }
+}
+
+.ag {
+  & > header,
+  & > main,
+  & > aside
+  & > nav {
+    padding-bottom: 10px;
+  }
+}
+
+.main-container {
+  @extend .container;
+  & > .ag {
+    padding-top: 3rem;
+  }
+}

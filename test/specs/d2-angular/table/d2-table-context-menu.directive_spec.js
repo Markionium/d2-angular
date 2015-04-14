@@ -6,7 +6,7 @@ describe('D2 Table: Context menu directive', () => {
     let element;
     let scope;
 
-    beforeEach(module('d2-angular.table'));
+    beforeEach(angular.mock.module('d2-angular.table'));
     beforeEach(inject(($injector) => {
         let $compile = $injector.get('$compile');
         let $rootScope = $injector.get('$rootScope');

@@ -1,0 +1,55 @@
+$primary: #009587;
+$gray: #757575;
+
+.d2-table-pager {
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  width: 100%;
+
+  button {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    height: 38px;
+    width: 40px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    border-radius: 100%;
+    overflow: hidden;
+  }
+
+  .pagination {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-block;
+      list-style: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+
+      &.separator {
+        cursor: default;
+      }
+
+      span {
+        color: $gray;
+        line-height: 40px;
+      }
+    }
+  }
+
+  li.active {
+    background: $primary;
+    span {
+      color: #FFFFFF;
+    }
+  }
+}

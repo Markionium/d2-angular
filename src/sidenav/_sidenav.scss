@@ -1,0 +1,33 @@
+$sidenav-background-color: #EEE;
+$sidenav-border: 1px solid #e0e0e0;
+
+.sidenav {
+  @include transition($swift-ease-in);
+  background-color: $sidenav-background-color;
+
+  h2 {
+    padding-left: $default-padding;
+  }
+
+  ul {
+    padding-left: 0;
+  }
+
+  li {
+    border-bottom: $sidenav-border;
+    line-height: 1rem;
+  }
+
+  .d2-button {
+    background-color: transparent;
+    width: 100%;
+  }
+
+  @include breakpoint(900px) {
+    .ag1 & {
+      @include span(2 of 10);
+      position: fixed;
+      height: 100%;
+    }
+  }
+}

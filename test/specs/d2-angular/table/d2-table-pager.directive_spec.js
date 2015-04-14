@@ -1,7 +1,7 @@
 import angular from 'angular';
 import 'angular-mocks';
 
-import 'src/d2-angular/table/d2-table.module';
+import 'd2-angular/table/d2-table.module';
 
 describe('D2 Table: Pager directive', () => {
     let element;
@@ -10,7 +10,7 @@ describe('D2 Table: Pager directive', () => {
     let controller;
     let mockObjectWithToArrayMethod;
 
-    beforeEach(module('d2-angular.table'));
+    beforeEach(angular.mock.module('d2-angular.table'));
     beforeEach(inject(($compile, $rootScope) => {
         mockObjectWithToArrayMethod = {
             toArray() {
