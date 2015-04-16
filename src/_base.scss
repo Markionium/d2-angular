@@ -45,6 +45,11 @@
   color: $error-text-color;
 }
 
+.d2-color-dark {
+  background-color: $secondary-bg-color;
+  color: $secondary-text-color;
+}
+
 h1,
 h2,
 h3,
@@ -74,4 +79,30 @@ button, a, li {
     background: $error-hover-bg-color;
     color: $error-hover-text-color;
   }
+}
+
+//Form fields
+.d2-form {
+  @extend .frame-z1;
+  margin: 3rem;
+
+  .d2-form-fields {
+    padding: 1rem 3rem 3rem;
+  }
+
+  .form-actions {
+    @include container();
+
+    .d2-button {
+      width: 50%;
+      text-align: center;
+      float: left;
+      height: 3rem;
+      line-height: 2.5rem;
+    }
+  }
+}
+
+.d2-form-fields-head {
+  @extend .d2-color-dark;
 }

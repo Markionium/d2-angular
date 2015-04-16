@@ -1,5 +1,7 @@
-$input-border-color: rgba(0,0,0,0.26);
+$input-border-color: rgba(0, 0, 0, 0.3);
+$input-label-filled: rgba(0, 0, 0, 0.6);
 $input-label-color: $input-border-color;
+$input-label-color-light: rgba(255,255,255, 0.3);
 
 @mixin placeholderColor($value) {
   ::-webkit-input-placeholder {
@@ -24,65 +26,127 @@ $input-label-color: $input-border-color;
 }
 
 .d2-input {
-  border: solid $input-border-color;
-  border-width: 0 0 1px 0;
   display: inline-block;
   position: relative;
-  padding-top: 1rem;
-  margin-top: 1rem;
+  font-size: 1rem;
+  padding-top: 1em;
+  margin-top: 1em;
+  width: 20em;
+  vertical-align: bottom;
+
+  .d2-color-dark & {
+    label {
+      color: $input-label-color-light;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    input[type="email"],
+    textarea {
+      border-color: $input-label-color-light;
+
+      &:-webkit-autofill {
+        -webkit-box-shadow:0 0 0 50px $secondary-bg-color inset;
+        -webkit-text-fill-color: inherit;
+      }
+      &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 50px $secondary-bg-color inset;
+        -webkit-text-fill-color: inherit;
+      }
+    }
+  }
+
+  &.large {
+    font-size: 1.25rem;
+  }
+
+  &.huge {
+    font-size: 1.75rem;
+  }
 
   label {
     @include transition($focus-transition);
     color: $input-label-color;
-    font-size: 1rem;
+    font-size: 1em;
     position: absolute;
-    top: 1.3rem;
+    top: 1.3em;
     left: 0;
     padding-left: 2px;
-    z-index: -1;
     background: transparent;
 
     i.input-required-icon {
-      font-size: .5rem;
+      color: rgba(255, 0, 0, .75);
+      font-size: .5em;
       vertical-align: super;
-      margin-left: .2rem;
+      margin-left: .5em;
     }
   }
 
   input[type="text"],
   input[type="password"],
   input[type="number"],
-  input[type="email"] {
-    @include transition($focus-transition);
+  input[type="email"],
+  textarea {
+    //@include transition($focus-transition);
     padding: 8px 2px;
+    padding-bottom: 3px;
     background: transparent;
-    border: solid transparent;
+    border: solid $input-label-color;
     border-width: 0 0 1px 0;
     outline: none;
-    font-size: 1rem;
+    font-size: 1em;
+    width: 100%;
     z-index: 0;
     -webkit-appearance: none;
+    -moz-apprearance: none;
+
+    &:-webkit-autofill {
+      -webkit-box-shadow:0 0 0 50px #FFF inset;
+      -webkit-text-fill-color: inherit;
+    }
+    &:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 50px #FFF inset;
+      -webkit-text-fill-color: inherit;
+    }
+  }
+
+  textarea {
+    width: 30em;
+    height: 5em;
   }
 
   @include placeholderColor(transparent);
 
   &.d2-input-focused, &.d2-input-has-content {
     label {
-      font-size: .8rem;
+      font-size: .8em;
       top: 0;
+
+      color: $input-label-filled;
+
+      .d2-color-dark & {
+        color: $input-label-color-light;
+      }
     }
 
     @include placeholderColor($input-label-color);
   }
 
   &.d2-input-focused {
-    border-color: $primary-bg-color;
+    .d2-color-dark & {
+      @include placeholderColor($input-label-color-light);
+    }
 
     label {
       color: $primary-bg-color;
 
       i.input-required-icon {
-        color: red;
+        color: rgba(255, 0, 0, .75);
+      }
+
+      .d2-color-dark & {
+        color: $secondary-hover-text-color;
       }
     }
 
@@ -91,7 +155,12 @@ $input-label-color: $input-border-color;
     input[type="number"],
     input[type="email"] {
       border-color: $primary-bg-color;
-      border-width: 0 0 1px 0;
+      border-width: 0 0 2px 0;
+      padding-bottom: 2px;
+
+      .d2-color-dark & {
+        border-color: $secondary-hover-text-color;
+      }
     }
   }
 }

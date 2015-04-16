@@ -32,6 +32,12 @@ gulp.task('clean', function (cb) {
     del(buildDirectory, cb);
 });
 
+
+gulp.task('clean-js', function (cb) {
+    var del = require('del');
+    del(buildDirectory + '/**.js', cb);
+});
+
 gulp.task('test', function () {
     return gulp.src([]).pipe(runKarma());
 });
@@ -78,7 +84,7 @@ gulp.task('copy-d2-source', ['clean-d2-source'], function () {
         .pipe(gulp.dest('jspm_packages/npm/d2'));
 });
 
-gulp.task('build-js', ['clean'], function (cb) {
+gulp.task('build-js', ['clean-js'], function (cb) {
     var builder = new Builder({});
 
     builder.loadConfig('./config.js')
@@ -105,7 +111,12 @@ gulp.task('build-js', ['clean'], function (cb) {
         });
 });
 
-gulp.task('build-css', function () {
+gulp.task('build-sass', function () {
+    return gulp.src(['./src/**/*.scss'], {base: './src'})
+        .pipe(gulp.dest(buildDirectory + '/scss'));
+});
+
+gulp.task('build-css', ['build-sass'], function () {
     return $.rubySass(['./src/d2-angular.scss'], {loadPath: './src', style: 'expanded', compass: true})
         .on('error', function (err) {
             console.error('Error!', err.message);
@@ -129,12 +140,17 @@ gulp.task('docs', function (cb) {
 });
 
 gulp.task('docs:watch', function () {
-    gulp.watch(['src/**/*.js'], ['docs:copy-build']);
-    gulp.watch(['src/**/*.scss'], ['docs:copy-build']);
+    gulp.watch(['src/**/*.js'], ['docs:copy-build-js']);
+    gulp.watch(['src/**/*.scss'], ['docs:copy-build-css']);
     gulp.watch(['docs/app/**/*.*'], ['docs:app']);
 });
 
-gulp.task('docs:copy-build', ['build-js', 'build-css'], function () {
+gulp.task('docs:copy-build-js', ['build-js'], function () {
+    return gulp.src([buildDirectory + '/**/*'], {base: './build'})
+        .pipe(gulp.dest(docsDirectory + '/build'));
+});
+
+gulp.task('docs:copy-build-css', ['build-css'], function () {
     return gulp.src([buildDirectory + '/**/*'], {base: './build'})
         .pipe(gulp.dest(docsDirectory + '/build'));
 });

@@ -1,9 +1,14 @@
+$default-button-bg-color: $default-hover-bg-color;
+$default-button-text-color: $default-text-color;
+$default-button-hover-bg-color: #DDD;
+$default-button-hover-text-color: $default-text-color;
+
 .d2-button {
-  background-color: $default-bg-color;
+  background-color: $default-button-bg-color;
   box-shadow: none;
   border: none;
   border-radius: .25em;
-  color: $default-text-color;
+  color: $default-button-text-color;
   display: inline-block;
   font-size: 1rem;
   line-height: 2rem;
@@ -14,6 +19,7 @@
   text-transform: none;
   position: relative;
   overflow: hidden;
+  vertical-align: top;
 
   i + span {
     padding-left: 5px;
@@ -24,8 +30,8 @@
   }
 
   &:hover {
-    background: $default-hover-bg-color;
-    color: $default-hover-text-color;
+    background: $default-button-hover-bg-color;
+    color: $default-button-hover-text-color;
   }
 
   &:active, &:active {
@@ -44,6 +50,7 @@
     margin: 0;
     text-align: center;
     z-index: $z-index-fab;
+    line-height: 36px;
   }
 
   &.d2-fab-lg {
@@ -51,5 +58,6 @@
     font-size: 1.5rem;
     height: 50px;
     width: 50px;
+    line-height: 50px;
   }
 }

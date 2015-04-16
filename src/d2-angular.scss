@@ -17,9 +17,15 @@
 @import "header/header";
 @import "select-from-list/select-from-list";
 
+/* Angular */
+@import "input/ng-form";
+
 @import "base";
 
 html {
   font-size: $default-font-size;
   font-family: $font-family;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

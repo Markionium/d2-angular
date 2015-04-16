@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-function d2InputDirective(INPUT_REQUIRED_ICON_CLASS) {
+function d2InputDirective(INPUT_REQUIRED_ICON_CLASS, $parse) {
     return {
         restrict: 'EA',
         replace: true,
@@ -15,11 +15,26 @@ function d2InputDirective(INPUT_REQUIRED_ICON_CLASS) {
 
     function postLink(scope, element) {
         let inputElement = getInputElement(element);
+        let labelElement = getLabelElement(element);
+
         setHasContentClassWhenInputHasContent(inputElement, element);
 
-        inputElement.on('change', function (event) {
-            let element = angular.element(event.target);
-            setHasContentClassWhenInputHasContent(element, element.parent());
+        // TODO: We need two change handlers as one only watches the model and the other fires on the event
+        // should see if we can remove the watcher and only use the handler.
+        scope.$watch(() => inputElement.val(), (newVal, oldVal) => {
+            if (newVal !== oldVal) {
+                setHasContentClassWhenInputHasContent(inputElement, element);
+            }
+        });
+
+        labelElement.on('click', (event) => {
+            if (!inputElement.hasClass('d2-input-focused')) {
+                inputElement.trigger('focus');
+            }
+        });
+
+        inputElement.on('change', (event) => {
+            setHasContentClassWhenInputHasContent(inputElement, element);
         });
 
         inputElement.on('focus', function (event) {
@@ -30,13 +45,19 @@ function d2InputDirective(INPUT_REQUIRED_ICON_CLASS) {
             angular.element(event.target.parentNode).removeClass('d2-input-focused');
         });
 
-        if (inputElement.attr('required')) {
+        if (inputElement.attr('required') || $parse(inputElement.attr('ng-required'))(scope)) {
             element.find('label').append('<i class="' + INPUT_REQUIRED_ICON_CLASS + '"></i>');
         }
     }
 
     function getInputElement(element) {
         let inputElement = element[0] && element[0].querySelector('input');
+        let textArea = element[0] && element[0].querySelector('textarea');
+        return angular.element(inputElement || textArea);
+    }
+
+    function getLabelElement(element) {
+        let inputElement = element[0] && element[0].querySelector('label');
 
         return angular.element(inputElement);
     }
