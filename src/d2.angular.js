@@ -12,6 +12,7 @@ import 'd2-angular/table/d2-table.module';
 import 'd2-angular/select-from-list/select-from-list.module';
 import 'd2-angular/button/d2-button.module';
 import 'd2-angular/input/d2-input.module';
+import 'd2-angular/dragdrop/dragdrop.module';
 
 let isUndefined = angular.isUndefined;
 
@@ -47,7 +48,8 @@ function buildD2AngularModule(d2) {
         'd2-angular.table',
         'd2-angular.button',
         'd2-angular.input',
-        'd2-angular.select-from-list'
+        'd2-angular.select-from-list',
+        'd2-angular.drag-drop'
     ]);
 }
 

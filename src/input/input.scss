@@ -41,6 +41,12 @@ $input-label-color: $input-border-color;
     padding-left: 2px;
     z-index: -1;
     background: transparent;
+
+    i.input-required-icon {
+      font-size: .5rem;
+      vertical-align: super;
+      margin-left: .2rem;
+    }
   }
 
   input[type="text"],
@@ -74,6 +80,10 @@ $input-label-color: $input-border-color;
 
     label {
       color: $primary-bg-color;
+
+      i.input-required-icon {
+        color: red;
+      }
     }
 
     input[type="text"],

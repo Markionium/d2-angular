@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-function d2InputDirective() {
+function d2InputDirective(INPUT_REQUIRED_ICON_CLASS) {
     return {
         restrict: 'EA',
         replace: true,
@@ -29,6 +29,10 @@ function d2InputDirective() {
         inputElement.on('blur', function (event) {
             angular.element(event.target.parentNode).removeClass('d2-input-focused');
         });
+
+        if (inputElement.attr('required')) {
+            element.find('label').append('<i class="' + INPUT_REQUIRED_ICON_CLASS + '"></i>');
+        }
     }
 
     function getInputElement(element) {

@@ -1,4 +1,6 @@
-@-webkit-keyframes ripple-animation {
+@import "compass/css3/animation";
+
+@include keyframes(rippleAnimation) {
   from {
     -webkit-transform: scale(0);
     transform: scale(0);
@@ -10,16 +12,50 @@
     opacity: 0;
   }
 }
-@keyframes ripple-animation {
+
+@include keyframes(openSpace) {
   from {
-    transform: scale(0);
-    -webkit-transform: scale(0);
-    opacity: 0.4;
+    max-height: 0;
   }
   to {
-    transform: scale(5);
-    -webkit-transform: scale(5);
+    max-height: 50px;
+  }
+}
+
+
+@include keyframes(moveInSelected) {
+  from {
     opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@include keyframes(moveInAvailable) {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@include keyframes(moveOutSelected) {
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+@include keyframes(moveOutAvailable) {
+  to {
+    opacity: 0;
+    transform: translateX(100%);
   }
 }
 
@@ -46,6 +82,6 @@
 }
 
 .ripple-effect-container.ripple-animate {
-  animation: ripple-animation 1.6s;
-  -webkit-animation: ripple-animation 1.6s;
+  animation: rippleAnimation 1.6s;
+  -webkit-animation: rippleAnimation 1.6s;
 }

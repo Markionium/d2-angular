@@ -1,3 +1,6 @@
+//Screen sizes for breakpoints these values are media query values for breakpoint
+$large-screen-min: 900px;
+
 // Fonts
 $font-family: Roboto, 'Helvetica Neue', sans-serif !default;
 $default-font-size: 14px;
@@ -10,6 +13,8 @@ $default-bg-color: #FFFFFF;
 $default-text-color: #333333;
 $default-hover-bg-color: #EEEEEE;
 $default-hover-text-color: $default-text-color;
+$default-selected-bg-color: #CCCCEE;
+$default-selected-text-color: $default-text-color;
 
 $primary-bg-color: #3489c8;
 $primary-text-color: #FFFFFF;

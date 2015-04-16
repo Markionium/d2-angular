@@ -2,84 +2,125 @@
   @extend .container;
   overflow: visible;
 
+  & > div.available,
+  & > div.selected {
+    position: relative;
+
+    header {
+      padding: .5rem 1rem;
+    }
+
+    ul {
+      border: 1px solid $input-border-color;
+      border-top: none;
+      padding-left: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: 15rem;
+      margin: 0;
+      min-height: 15rem;
+      font-size: .9rem;
+
+      &.d2-drop-target:before {
+        background: rgba(0, 100, 0, .5);
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: 100%;
+        font: normal normal normal 14px/1 FontAwesome;
+        color: white;
+        text-align: center;
+        line-height: 15rem;
+        font-size: 4rem;
+        z-index: 100;
+
+        content: "\f055";
+      }
+    }
+
+    li {
+      position: relative;
+      list-style: none;
+      cursor: pointer;
+      border-bottom: 1px solid $input-border-color;
+      padding: 2px 5px;
+
+      &:hover {
+        background-color: $default-hover-bg-color;
+        color: $default-hover-text-color;
+      }
+
+      &.d2-select-list-item-selected {
+        background-color: $default-selected-bg-color;
+        color: $default-selected-text-color;
+      }
+    }
+  }
+
   & > div.available {
-    @include span(1 of 2);
+    @include breakpoint($large-screen-min) {
+      @include span(4 of 9);
+    }
+
+    li.ng-leave.ng-leave-active,
+    li.ng-move,
+    li.ng-enter {
+      transform: translateX(0%);
+      @include animation(moveOutAvailable 0.2s ease forwards, openSpace 0.3s 0.2s ease reverse);
+    }
+
+    li.ng-leave,
+    li.ng-move.ng-move-active,
+    li.ng-enter.ng-enter-active {
+      max-height: 50px;
+      transform: translateX(100%);
+      @include animation(openSpace 0.2s ease forwards, moveInAvailable 0.3s 0.2s ease forwards);
+    }
+  }
+
+  & > div.actions {
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    @include breakpoint($large-screen-min) {
+      @include span(1 of 9);
+      height: 17rem;
+      padding-top: 4rem;
+    }
+
+    .d2-button {
+      margin-right: .4rem;
+
+      @include breakpoint($large-screen-min) {
+        display: block;
+        margin: 0 auto .4rem auto;
+
+        i {
+          transform: rotate(-90deg);
+          @include transition(transform 0.3s 0.2s ease forwards);
+        }
+      }
+    }
   }
 
   & > div.selected {
-    @include span(1 of 2 last);
-  }
+    @include breakpoint($large-screen-min) {
+      @include span(4 of 9 last);
+    }
 
-  ul {
-    position: relative;
-    padding-left: 0;
-  }
+    li.ng-leave.ng-leave-active,
+    li.ng-move,
+    li.ng-enter {
+      @include animation(moveOutSelected 0.2s ease forwards, openSpace 0.3s 0.2s ease reverse);
+    }
 
-  li {
-    position: relative;
-    list-style: none;
-    cursor: pointer;
-    border-bottom: 1px solid $input-border-color;
-    padding: 2px 5px;
-  }
-
-  li.ng-leave.ng-leave-active,
-  li.ng-move,
-  li.ng-enter {
-    opacity: 1;
-    //transform: translateX(-300px);
-    animation: openSpace 0.2s ease reverse,
-    moveOut 0.3s 0.2s ease forwards;
-    -webkit-animation: openSpace 0.2s ease reverse,
-    moveOut 0.3s 0.2s ease forwards;
-  }
-
-  li.ng-leave,
-  li.ng-move.ng-move-active,
-  li.ng-enter.ng-enter-active {
-    max-height: 0;
-    opacity: 0;
-    transform: translateX(-300px);
-    animation: openSpace 0.2s ease forwards,
-    moveIn 0.3s 0.2s ease forwards;
-    -webkit-animation: openSpace 0.2s ease forwards,
-    moveIn 0.3s 0.2s ease forwards;
-  }
-
-  @keyframes openSpace {
-    to {
+    li.ng-leave,
+    li.ng-move.ng-move-active,
+    li.ng-enter.ng-enter-active {
       max-height: 50px;
-    }
-  }
-  @keyframes moveIn {
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  @keyframes moveOut {
-    to {
-      max-height: 0;
-      opacity: 0;
-      transform: translateX(300px);
-    }
-  }
-  @-webkit-keyframes openSpace {
-    to {
-      max-height: 50px;
-    }
-  }
-  @-webkit-keyframes moveIn {
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  @-webkit-keyframes moveOut {
-    to {
-      max-height: 0;
-      opacity: 0;
-      transform: translateX(300px);
+      transform: translateX(-100%);
+      @include animation(openSpace 0.2s ease forwards, moveInSelected 0.3s 0.2s ease forwards);
     }
   }
 }

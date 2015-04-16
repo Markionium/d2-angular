@@ -104,13 +104,23 @@ describe('D2 Select from list: Directive:', () => {
         });
 
         it('should move a value to the other list when double clicked', () => {
+            let firstDataElement = element.find('div.available li').first();
+
+            firstDataElement.dblclick();
+            scope.$apply();
+
+            expect(availableSelectItems.children('option').length).to.equal(2);
+            expect(scope.selectedItems.length).to.equal(2);
+        });
+
+        it('should move a selected item back to the available list', () => {
             let firstDataElement = element.find('div.selected li').first();
 
             firstDataElement.dblclick();
             scope.$apply();
 
-            expect(availableSelectItems.children('option').length).to.equal(3);
-            expect(scope.selectedItems.length).to.equal(1);
+            expect(availableSelectItems.children('option').length).to.equal(4);
+            expect(scope.selectedItems.length).to.equal(0);
         });
     });
 });
