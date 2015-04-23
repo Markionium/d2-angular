@@ -33,6 +33,7 @@ $input-label-color-light: rgba(255,255,255, 0.3);
   margin-top: 1em;
   width: 20em;
   vertical-align: bottom;
+  @include placeholderColor(transparent);
 
   .d2-color-dark & {
     label {
@@ -87,8 +88,8 @@ $input-label-color-light: rgba(255,255,255, 0.3);
   input[type="password"],
   input[type="number"],
   input[type="email"],
+  select,
   textarea {
-    //@include transition($focus-transition);
     padding: 8px 2px;
     padding-bottom: 3px;
     background: transparent;
@@ -99,7 +100,8 @@ $input-label-color-light: rgba(255,255,255, 0.3);
     width: 100%;
     z-index: 0;
     -webkit-appearance: none;
-    -moz-apprearance: none;
+    -moz-appearance: none;
+    appearance: none;
 
     &:-webkit-autofill {
       -webkit-box-shadow:0 0 0 50px #FFF inset;
@@ -116,7 +118,30 @@ $input-label-color-light: rgba(255,255,255, 0.3);
     height: 5em;
   }
 
-  @include placeholderColor(transparent);
+  select {
+    border-radius: 0;
+  }
+
+  &.d2-input-type-select {
+    .d2-select-loading-indicator {
+      position: absolute;
+      top: 50%;
+      left: -1rem;
+    }
+  }
+
+  &.d2-input-type-select:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: .6rem solid transparent;
+    border-right: .6rem solid transparent;
+    border-top: .6rem solid $input-label-color;
+    position: absolute;
+    right: 0;
+    top: 50%;
+  }
+
 
   &.d2-input-focused, &.d2-input-has-content {
     label {
@@ -153,7 +178,8 @@ $input-label-color-light: rgba(255,255,255, 0.3);
     input[type="text"],
     input[type="password"],
     input[type="number"],
-    input[type="email"] {
+    input[type="email"],
+    select {
       border-color: $primary-bg-color;
       border-width: 0 0 2px 0;
       padding-bottom: 2px;

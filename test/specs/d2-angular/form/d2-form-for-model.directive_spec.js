@@ -5,17 +5,47 @@ import 'd2-angular/form/d2-form.module';
 
 import {D2FormFieldsManager} from 'd2-angular/form/d2-form-fields.service';
 
-describe('D2 Form: d2-from-for-module directive', () => {
+describe('D2 Form: d2-from-for-model directive', () => {
     let element;
     let scope;
     let controller;
     let isolatedScope;
+    let modelsMock;
 
     beforeEach(angular.mock.module('d2-angular.form', ($provide) => {
         $provide.factory('d2FormFields', () => {
             return {
                 getManager: () => new D2FormFieldsManager()
             };
+        });
+
+        modelsMock = {
+            optionSet: {
+                list: sinon.stub()
+                    .returns(new Promise((resolve, reject) => {
+                        resolve({
+                            toArray: () => [
+                                {id: "P5T6XLxAMuT", name: "EA Point of Service"},
+                                {id: "iQVTOxirAMr", name: "Priority Options"},
+                                {id: "NhBfT0hyniX", name: "SIMS Score"},
+                                {id: "cJT5PIYlJJ2", name: "SIMS Visit Type"},
+                                {id: "rEe8qYehRjk", name: "SMS Performance"},
+                                {id: "nqlZCLapeAz", name: "SMS Visit type"},
+                                {id: "Mi7e46Arz3f", name: "SOP Eval Type"},
+                                {id: "B0l3k52TIfn", name: "SOP Fiscal Year"},
+                                {id: "xk2QOngeISE", name: "SOP YNDK"},
+                                {id: "w6CxWxQu8uA", name: "SOP YNP"},
+                                {id: "sMrSJOCZ23C", name: "Technical Areas"},
+                                {id: "rW8mXOUxQty", name: "USG Agency"},
+                                {id: "j2iyo9Das93", name: "Yes No"}
+                            ]
+                        });
+                    }))
+            }
+        };
+
+        $provide.factory('models', function () {
+            return modelsMock;
         });
     }));
     beforeEach(inject(($compile, $rootScope, d2FormFields) => {
@@ -29,17 +59,18 @@ describe('D2 Form: d2-from-for-module directive', () => {
                 modelDefinition: {
                     getOwnedPropertyNames: sinon.stub()
                         .returns([
-                            'aggregationLevels', 'zeroIsSignificant', 'type', 
-                            'optionSet', 'id', 'created', 'description', 
-                            'commentOptionSet', 'name', 'textType', 
-                            'publicAccess', 'aggregationOperator', 
-                            'formName', 'lastUpdated', 'code', 'url', 
-                            'numberType', 'domainType', 'legendSet', 
-                            'categoryCombo', 'attributeValues', 
+                            'aggregationLevels', 'zeroIsSignificant', 'type',
+                            'optionSet', 'id', 'created', 'description',
+                            'commentOptionSet', 'name', 'textType',
+                            'publicAccess', 'aggregationOperator',
+                            'formName', 'lastUpdated', 'code', 'url',
+                            'numberType', 'domainType', 'legendSet',
+                            'categoryCombo', 'attributeValues',
                             'userGroupAccesses', 'shortName', 'user'
                         ]),
                     modelValidations: fixtures.get('modelValidations')
-                }
+                },
+                optionSet: {id: "j2iyo9Das93", name: "Yes No"}
             },
             formFieldsManager: d2FormFields.getManager()
         };
@@ -88,7 +119,7 @@ describe('D2 Form: d2-from-for-module directive', () => {
         });
 
         it('should have loaded seven main fields', () => {
-            expect(mainFieldsWrap.children().length).to.equal(7);
+            expect(mainFieldsWrap.children().length).to.equal(11);
         });
     });
 
@@ -132,6 +163,26 @@ describe('D2 Form: d2-from-for-module directive', () => {
             let aggregationOperatorField = mainFieldsWrap.find('[name=aggregationOperator]');
 
             expect(aggregationOperatorField[0].tagName).to.equal('SELECT');
+        });
+    });
+
+    describe('reference fields', () => {
+        let mainFieldsWrap;
+
+        beforeEach(() => {
+            scope.$apply();
+            mainFieldsWrap = element.children().find('.d2-form-fields-main');
+        });
+
+        it('should ask the api for the values of the field', () => {
+            expect(modelsMock.optionSet.list).to.be.called;
+        });
+
+        it('should have loaded the requested values into the selectbox as options', () => {
+            let optionSet = mainFieldsWrap.find('[name=optionSet]');
+            scope.$apply();
+
+            expect(optionSet.children().length).to.equal(13);
         });
     });
 });

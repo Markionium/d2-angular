@@ -1,4 +1,4 @@
-export default function (d2FormFields, $log) {
+export default function (d2FormFields, models, $log, $q, $timeout) {
     class D2FormController {
         getFieldConfig(propertyName) {
             let modelOptions = this.model.modelDefinition.modelValidations[propertyName];
@@ -11,7 +11,8 @@ export default function (d2FormFields, $log) {
                 isHeadField: this.formFieldsManager.getHeaderFieldNames().includes(propertyName),
                 required: modelOptions.required,
                 hideWhen: angular.noop,
-                onChange: angular.noop
+                onChange: angular.noop,
+                referenceType: modelOptions.referenceType
             };
 
             if (modelOptions.constants) {
@@ -49,12 +50,25 @@ export default function (d2FormFields, $log) {
             field = angular.extend(field, this.formFieldsManager.getFieldOverrideFor(field.name));
 
             switch (field.type) {
+                case 'reference':
+                    if (field.referenceType && models[field.referenceType]) {
+                        field.loading = true;
+                        $q.when(models[field.referenceType].list({paging: false}))
+                            .then(models => {
+                                field.options = models.toArray();
+
+                                // FIXME: Timeout hack to make sure this
+                                // is applied after the loading is done
+                                $timeout(() => field.loading = false, 0);
+                            });
+                    }
+                    return templates.getD2FormField(templates.selectForObjects);
                 case 'select':
-                    return templates.select;
+                    return templates.getD2FormField(templates.selectForValues);
                 case 'textarea':
-                    return templates.getD2Input(templates.textarea);
+                    return templates.getD2FormField(templates.textarea);
                 default:
-                    return templates.getD2Input(templates.input);
+                    return templates.getD2FormField(templates.input);
             }
         }
 

@@ -1,8 +1,9 @@
-let fieldNamesToIgnoreOnDisplay = ['id', 'publicAccess', 'created', 'lastUpdated'];
+let fieldNamesToIgnoreOnDisplay = ['id', 'publicAccess', 'created', 'lastUpdated', 'user'];
 let headerFieldNames = ['name', 'shortName', 'code'];
 let typeMap = {
     text: ['TEXT', 'IDENTIFIER'],
-    select: ['CONSTANT']
+    select: ['CONSTANT'],
+    reference: ['REFERENCE']
 };
 
 export class D2FormFieldsManager {
@@ -24,29 +25,33 @@ export class D2FormFieldsManager {
 
     getFieldTemplates() {
         return {
-            select: `<label>{{field.name}}</label>
-             <select name="{{field.name}}"
-                     ng-model="d2Form.model[field.property]"
-                     ng-required="field.required"
-                     ng-change="field.onChange(d2Form.model)">
-                 <option ng-selected="d2Form.model[field.property] == option"
-                         value="{{option}}"
-                         ng-repeat="option in field.options"
-                         ng-bind="option | lowercase">
-                 </option>
-             </select>`,
-                textarea: `<textarea name="{{field.name}}" ng-model="d2Form.model[field.property]" ng-required="field.required"></textarea>`,
-            getD2Input: function (fieldTemplate) { return `<d2-input>
+            selectForValues: `<select name="{{field.name}}"
+                        ng-model="d2Form.model[field.property]"
+                        ng-required="field.required"
+                        ng-change="field.onChange(d2Form.model)"
+                        ng-options="value for value in field.options">
+                     </select>`,
+            selectForObjects: `<select name="{{field.name}}"
+                        ng-model="d2Form.model[field.property]"
+                        ng-required="field.required"
+                        ng-change="field.onChange(d2Form.model)"
+                        ng-options="model.name for model in field.options track by model.id">
+                     </select>
+                     <div class="d2-select-loading-indicator fa fa-spinner fa-pulse" ng-show="field.loading"></i>`,
+            textarea: `<textarea name="{{field.name}}" ng-model="d2Form.model[field.property]" ng-required="field.required"></textarea>`,
+            getD2FormField: function (fieldTemplate) {
+                return `<d2-input>
                 <label>{{field.name}}</label>
                 ${fieldTemplate}
-            </d2-input>`},
+            </d2-input>`
+            },
             input: `<input name="{{field.name}}"
                            type="{{field.type}}"
                            placeholder="{{field.placeholder}}"
                            ng-model="d2Form.model[field.property]"
                            ng-required="field.required"
                            ng-change="field.onChange(d2Form.model)"
-                           />`
+                           />`,
         }
     }
 

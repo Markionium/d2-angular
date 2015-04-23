@@ -7,7 +7,17 @@ import {D2FormFieldsManager} from 'd2-angular/form/d2-form-fields.service';
 describe('D2 Form: d2FormFieldsManager', () => {
     let service;
 
-    beforeEach(angular.mock.module('d2-angular.form'));
+    beforeEach(angular.mock.module('d2-angular.form', function ($provide) {
+        let modelsMock = {
+            optionSet: {
+                list: sinon.stub()
+            }
+        };
+
+        $provide.factory('models', function () {
+            return modelsMock;
+        });
+    }));
     beforeEach(inject($injector => {
         service = $injector.get('d2FormFields');
     }));
@@ -31,7 +41,7 @@ describe('D2FormFieldsManager', () => {
     });
 
     it('should return the default fields to ignore', () => {
-        expect(manager.getFieldNamesToIgnoreOnDisplay()).to.deep.equal(['id', 'publicAccess', 'created', 'lastUpdated']);
+        expect(manager.getFieldNamesToIgnoreOnDisplay()).to.deep.equal(['id', 'publicAccess', 'created', 'lastUpdated', 'user']);
     });
 
     it('should return the default header fields', () => {
@@ -41,7 +51,8 @@ describe('D2FormFieldsManager', () => {
     it('should return the typeMap', () => {
         let expectedTypeMap = {
             text: ['TEXT', 'IDENTIFIER'],
-            select: ['CONSTANT']
+            select: ['CONSTANT'],
+            reference: ['REFERENCE']
         };
 
         expect(manager.getTypeMap()).to.deep.equal(expectedTypeMap);
@@ -70,6 +81,20 @@ describe('D2FormFieldsManager', () => {
 
         it('should return an the manager for chaining', () => {
             expect(manager.addFieldOverrideFor('type', {type: 'text'})).to.equal(manager);
+        });
+
+        it('should transform an array of options to the required options array with objects', () => {
+            let expectedOptions = [
+                {value: 'int', name: 'int', id: 'int'},
+                {},
+                {}
+            ]
+            manager.addFieldOverrideFor('type', {
+                type: 'select',
+                options: ['int', 'string', 'boolean']
+            });
+
+            expect()
         });
     });
     

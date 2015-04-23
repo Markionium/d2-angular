@@ -17,6 +17,8 @@ function d2InputDirective(INPUT_REQUIRED_ICON_CLASS, $parse) {
         let inputElement = getInputElement(element);
         let labelElement = getLabelElement(element);
 
+        element.addClass('d2-input-type-' + inputElement[0].tagName.toLowerCase());
+
         setHasContentClassWhenInputHasContent(inputElement, element);
 
         // TODO: We need two change handlers as one only watches the model and the other fires on the event
@@ -53,7 +55,8 @@ function d2InputDirective(INPUT_REQUIRED_ICON_CLASS, $parse) {
     function getInputElement(element) {
         let inputElement = element[0] && element[0].querySelector('input');
         let textArea = element[0] && element[0].querySelector('textarea');
-        return angular.element(inputElement || textArea);
+        let selectElement = element[0] && element[0].querySelector('select');
+        return angular.element(inputElement || textArea || selectElement);
     }
 
     function getLabelElement(element) {
@@ -63,7 +66,7 @@ function d2InputDirective(INPUT_REQUIRED_ICON_CLASS, $parse) {
     }
 
     function setHasContentClassWhenInputHasContent(inputElement, element) {
-        if (inputElement.val()) {
+        if (inputElement.val() && inputElement.val() !== '?') {
             element.addClass('d2-input-has-content');
         } else {
             element.removeClass('d2-input-has-content');
