@@ -66,7 +66,6 @@ module.exports = function( config ) {
                 'jspm_packages/github/**/*.css',
 
                 //App source files
-                'src/**/*.html',
                 'src/**/*.js',
 
                 //Test files
