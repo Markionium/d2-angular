@@ -73,21 +73,21 @@ function selectFromListDirective($q) {
                 }
             }
 
-            cleanUpSelectedList.bind(this)();
+            this.cleanUpSelectedList(listName, list);
             return this;
+        }
 
-            function cleanUpSelectedList() {
-                let valuesList = this[listName + 'Values'];
-                if (valuesList) {
-                    let valueKeys = new Set(valuesList.map(value => value.id));
+        cleanUpSelectedList(listName, list) {
+            let valuesList = this[listName + 'Values'];
+            if (valuesList) {
+                let valueKeys = new Set(valuesList.map(value => value.id));
 
-                    Array.from(list)
-                        .forEach((value) => {
-                            if (!valueKeys.has(value)) {
-                                list.delete(value);
-                            }
-                        });
-                }
+                Array.from(list)
+                    .forEach((value) => {
+                        if (!valueKeys.has(value)) {
+                            list.delete(value);
+                        }
+                    });
             }
         }
 
@@ -118,7 +118,11 @@ function selectFromListDirective($q) {
                                 ng-value="::availableValue.id"
                                 ng-dblclick="selectFromListCtrl.addSelectedItem(availableValue)"
                                 ng-click="selectFromListCtrl.toggleSelect('available', availableValue)"
-                                ng-class="{'d2-select-list-item-selected': selectFromListCtrl.isSelectedIn('available', availableValue)}">
+                                ng-class="{
+                                    'd2-select-list-item-selected': selectFromListCtrl.isSelectedIn(
+                                        'available', availableValue
+                                    )
+                                }">
                             </li>
                         </ul>
                         <select multiple class="ng-hide">
@@ -144,7 +148,11 @@ function selectFromListDirective($q) {
                                 ng-bind="::selectedValue.name"
                                 ng-dblclick="selectFromListCtrl.removeSelectedItem(selectedValue)"
                                 ng-click="selectFromListCtrl.toggleSelect('selected', selectedValue)"
-                                ng-class="{'d2-select-list-item-selected': selectFromListCtrl.isSelectedIn('selected', selectedValue)}">
+                                ng-class="{
+                                    'd2-select-list-item-selected': selectFromListCtrl.isSelectedIn(
+                                        'selected', selectedValue
+                                    )
+                                }">
                             </li>
                         </ul>
                         <select multiple class="ng-hide">
@@ -211,6 +219,7 @@ function selectFromListDirective($q) {
                     return collection;
 
                     function loadMoreData(event) {
+                        //jshint validthis:true
                         if (this.scrollTop + this.offsetHeight + 25 > this.scrollHeight) {
                             if (!isLoading) {
                                 isLoading = true;
@@ -222,7 +231,10 @@ function selectFromListDirective($q) {
                                     .then(attachHandlerIfThereIsANextPage)
                                     .then(collection => collection.toArray())
                                     .then(models => {
-                                        $scope.$apply(() => $scope.selectFromListCtrl.availableValues = $scope.selectFromListCtrl.availableValues.concat(models))
+                                        $scope.$apply(() => {
+                                            $scope.selectFromListCtrl.availableValues =
+                                                $scope.selectFromListCtrl.availableValues.concat(models);
+                                        });
                                         isLoading = false;
                                     });
                             }

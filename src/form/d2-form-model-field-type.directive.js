@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 export default function ($compile) {
     return {
         restrict: 'E',
@@ -8,10 +10,10 @@ export default function ($compile) {
             inputField(controller.getFieldTemplate(scope.field));
 
             function inputField(fieldTemplate) {
-                let fieldTemplate = angular.element(fieldTemplate);
+                let fieldTemplateElement = angular.element(fieldTemplate);
 
-                element.append(fieldTemplate);
-                $compile(fieldTemplate)(scope);
+                element.append(fieldTemplateElement);
+                $compile(fieldTemplateElement)(scope);
             }
         }
     };

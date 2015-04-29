@@ -4,8 +4,10 @@ function d2SelectFromListActions($q) {
     return {
         restrict: 'E',
         template: `
-            <d2-button class="d2-fab" icon="angle-down" ng-click="actions.selectedAvailableToSelected($event)"></d2-button>
-            <d2-button class="d2-fab" icon="angle-up" ng-click="actions.selectedSelectedToAvailable($event)"></d2-button>
+            <d2-button class="d2-fab" icon="angle-down"
+                ng-click="actions.selectedAvailableToSelected($event)"></d2-button>
+            <d2-button class="d2-fab" icon="angle-up"
+                ng-click="actions.selectedSelectedToAvailable($event)"></d2-button>
             <d2-button class="d2-fab" icon="angle-double-down" ng-click="actions.allToSelected($event)"></d2-button>
             <d2-button class="d2-fab" icon="angle-double-up" ng-click="actions.allToAvailable($event)"></d2-button>
         `,

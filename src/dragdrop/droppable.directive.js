@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 function droppable($parse) {
     return {
         restrict: 'A',

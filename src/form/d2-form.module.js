@@ -1,7 +1,7 @@
 import angular from 'angular';
 import d2FormDirective from './d2-form-for-model.directive';
 import d2FormForModelFieldType from './d2-form-model-field-type.directive';
-import d2FormFields from './d2-form-fields.service'
+import d2FormFields from './d2-form-fields.service';
 
 import 'd2-angular/input/d2-input.module';
 

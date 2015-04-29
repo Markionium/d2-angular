@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 function draggable($parse) {
     return {
         restrict: 'A',

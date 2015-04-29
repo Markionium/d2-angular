@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 export default function (d2FormFields, models, $log, $q, $timeout) {
     class D2FormController {
         getFieldConfig(propertyName) {
@@ -24,7 +26,7 @@ export default function (d2FormFields, models, $log, $q, $timeout) {
 
         getType(typeFromModel) {
             const typeMap = this.formFieldsManager.getTypeMap();
-            let inputType = undefined;
+            let inputType;
 
             Object.keys(typeMap)
                 .forEach(function (typeMapKey) {
@@ -55,12 +57,13 @@ export default function (d2FormFields, models, $log, $q, $timeout) {
                         field.loading = true;
                         $q.when(models[field.referenceType].list({paging: false}))
                             .then(models => {
-                                field.options = models.toArray();
-
-                                // FIXME: Timeout hack to make sure this
-                                // is applied after the loading is done
-                                $timeout(() => field.loading = false, 0);
-                            });
+                                if (models.toArray) {
+                                    field.options = models.toArray();
+                                } else {
+                                    field.options = models;
+                                }
+                            })
+                            .finally(() => field.loading = false);
                     }
                     return templates.getD2FormField(templates.selectForObjects);
                 case 'select':
@@ -77,7 +80,9 @@ export default function (d2FormFields, models, $log, $q, $timeout) {
 
             //Form manager that is used to manage the forms fields
             const propertyNames = controller.model.modelDefinition.getOwnedPropertyNames()
-                .filter(propertyName => !controller.formFieldsManager.getFieldNamesToIgnoreOnDisplay().includes(propertyName))
+                .filter(propertyName => !controller.formFieldsManager
+                    .getFieldNamesToIgnoreOnDisplay()
+                    .includes(propertyName));
 
             controller.formFields = propertyNames
                 .map(controller.getFieldConfig.bind(controller))
@@ -89,8 +94,8 @@ export default function (d2FormFields, models, $log, $q, $timeout) {
                     $log.warn('No field type found for ' + fieldConfig.name, fieldConfig);
                 });
 
-            controller.hasHeaderFields = () => controller.formFields.filter(fieldConfig => fieldConfig.isHeadField).length
-            controller.hasNormalFields = () => controller.formFields.filter(fieldConfig => !fieldConfig.isHeadField).length
+            controller.hasHeaderFields = () => controller.formFields.filter(fieldConfig => fieldConfig.isHeadField).length;
+            controller.hasNormalFields = () => controller.formFields.filter(fieldConfig => !fieldConfig.isHeadField).length;
         }
     }
 
@@ -119,4 +124,4 @@ export default function (d2FormFields, models, $log, $q, $timeout) {
        `,
         link: D2FormController.postLink
     };
-};
+}

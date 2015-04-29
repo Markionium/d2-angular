@@ -76,7 +76,7 @@ describe('D2FormFieldsManager', () => {
         it('should add a field override for the given fieldname', () => {
             manager.addFieldOverrideFor('type', {type: 'text'});
 
-            expect(manager.fieldOverrides['type']).to.deep.equal({type: 'text'});
+            expect(manager.fieldOverrides.type).to.deep.equal({type: 'text'});
         });
 
         it('should return an the manager for chaining', () => {
@@ -86,18 +86,18 @@ describe('D2FormFieldsManager', () => {
         it('should transform an array of options to the required options array with objects', () => {
             let expectedOptions = [
                 {value: 'int', name: 'int', id: 'int'},
-                {},
-                {}
-            ]
+                {value: 'string', name: 'string', id: 'string'},
+                {value: 'boolean', name: 'boolean', id: 'boolean'}
+            ];
             manager.addFieldOverrideFor('type', {
                 type: 'select',
                 options: ['int', 'string', 'boolean']
             });
 
-            expect()
+            expect(manager.getFieldOverrideFor('type').options).to.deep.equal(expectedOptions);
         });
     });
-    
+
     describe('getFieldOverrideFor', () => {
         beforeEach(() => {
             manager.addFieldOverrideFor('aggregationOperator', {

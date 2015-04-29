@@ -10,7 +10,7 @@ describe('D2 Form: d2-from-for-model directive', () => {
     let scope;
     let controller;
     let isolatedScope;
-    let modelsMock;
+    let modelsMock = {};
 
     beforeEach(angular.mock.module('d2-angular.form', ($provide) => {
         $provide.factory('d2FormFields', () => {
@@ -19,34 +19,30 @@ describe('D2 Form: d2-from-for-model directive', () => {
             };
         });
 
-        modelsMock = {
-            optionSet: {
-                list: sinon.stub()
-                    .returns(new Promise((resolve, reject) => {
-                        resolve({
-                            toArray: () => [
-                                {id: "P5T6XLxAMuT", name: "EA Point of Service"},
-                                {id: "iQVTOxirAMr", name: "Priority Options"},
-                                {id: "NhBfT0hyniX", name: "SIMS Score"},
-                                {id: "cJT5PIYlJJ2", name: "SIMS Visit Type"},
-                                {id: "rEe8qYehRjk", name: "SMS Performance"},
-                                {id: "nqlZCLapeAz", name: "SMS Visit type"},
-                                {id: "Mi7e46Arz3f", name: "SOP Eval Type"},
-                                {id: "B0l3k52TIfn", name: "SOP Fiscal Year"},
-                                {id: "xk2QOngeISE", name: "SOP YNDK"},
-                                {id: "w6CxWxQu8uA", name: "SOP YNP"},
-                                {id: "sMrSJOCZ23C", name: "Technical Areas"},
-                                {id: "rW8mXOUxQty", name: "USG Agency"},
-                                {id: "j2iyo9Das93", name: "Yes No"}
-                            ]
-                        });
-                    }))
-            }
-        };
-
-        $provide.factory('models', function () {
+        $provide.factory('models', function ($q) {
             return modelsMock;
         });
+    }));
+    beforeEach(inject(function ($q) {
+        modelsMock.optionSet = {
+            list: sinon.stub()
+                .returns($q.when([
+                    {id: 'P5T6XLxAMuT', name: 'EA Point of Service'},
+                    {id: 'iQVTOxirAMr', name: 'Priority Options'},
+                    {id: 'NhBfT0hyniX', name: 'SIMS Score'},
+                    {id: 'cJT5PIYlJJ2', name: 'SIMS Visit Type'},
+                    {id: 'rEe8qYehRjk', name: 'SMS Performance'},
+                    {id: 'nqlZCLapeAz', name: 'SMS Visit type'},
+                    {id: 'Mi7e46Arz3f', name: 'SOP Eval Type'},
+                    {id: 'B0l3k52TIfn', name: 'SOP Fiscal Year'},
+                    {id: 'xk2QOngeISE', name: 'SOP YNDK'},
+                    {id: 'w6CxWxQu8uA', name: 'SOP YNP'},
+                    {id: 'sMrSJOCZ23C', name: 'Technical Areas'},
+                    {id: 'rW8mXOUxQty', name: 'USG Agency'},
+                    {id: 'j2iyo9Das93', name: 'Yes No'}
+                ])
+            )
+        };
     }));
     beforeEach(inject(($compile, $rootScope, d2FormFields) => {
         element = angular.element(`
@@ -70,7 +66,7 @@ describe('D2 Form: d2-from-for-model directive', () => {
                         ]),
                     modelValidations: fixtures.get('modelValidations')
                 },
-                optionSet: {id: "j2iyo9Das93", name: "Yes No"}
+                optionSet: {id: 'j2iyo9Das93', name: 'Yes No'}
             },
             formFieldsManager: d2FormFields.getManager()
         };
@@ -178,11 +174,16 @@ describe('D2 Form: d2-from-for-model directive', () => {
             expect(modelsMock.optionSet.list).to.be.called;
         });
 
-        it('should have loaded the requested values into the selectbox as options', () => {
-            let optionSet = mainFieldsWrap.find('[name=optionSet]');
-            scope.$apply();
+        it('should have loaded the requested values into the selectbox as options', (done) => {
+            var optionSet;
 
-            expect(optionSet.children().length).to.equal(13);
+            modelsMock.optionSet.list().then(function (data) {
+                optionSet = element.children().find('.d2-form-fields-main').find('[name="optionSet"]');
+                expect(optionSet.children().length).to.equal(13);
+                done();
+            });
+
+            scope.$apply();
         });
     });
 });
