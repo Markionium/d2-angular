@@ -130,7 +130,7 @@ gulp.task('build-css', ['build-sass'], function () {
  */
 gulp.task('git:pre-commit', function (cb) {
     var runSequence = require('run-sequence');
-    
+
     //Gulp exists with 0 and for the pre-commit hook to fail we need to exit with a not 0 error code
     gulp.on('err', function(e){
         console.log('Pre-commit validate failed');

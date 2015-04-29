@@ -22,10 +22,10 @@
     "url": "https://github.com/Markionium/data-dictionary/issues"
   },
   "devDependencies": {
-    "babel": "~4.7.16",
+    "babel": "^5.1.13",
     "chai": "~2.2.0",
     "del": "~1.1.1",
-    "es6-module-loader": "~0.16.1",
+    "es6-module-loader": "^0.16.6",
     "gulp": "~3.8.11",
     "gulp-if": "~1.2.5",
     "gulp-jscs": "~1.4.0",
@@ -47,7 +47,7 @@
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-sinon": "~1.0.4",
     "karma-sinon-chai": "~0.3.0",
-    "karma-systemjs": "~0.2.1",
+    "karma-systemjs": "^0.3.0",
     "mocha": "~2.2.1",
     "phantomjs-polyfill": "0.0.1",
     "precommit-hook": "^2.0.1",
@@ -56,7 +56,7 @@
     "run-sequence": "~1.0.2",
     "sinon": "~1.14.1",
     "sinon-chai": "~2.7.0",
-    "systemjs": "~0.16.6",
+    "systemjs": "^0.16.10",
     "systemjs-builder": "~0.10.4"
   },
   "jspm": {
@@ -78,5 +78,7 @@
       "babel-runtime": "npm:babel-runtime@^4.7.16"
     }
   },
-  "pre-commit": ["validate"]
+  "pre-commit": [
+    "validate"
+  ]
 }
