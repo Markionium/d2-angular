@@ -1,11 +1,12 @@
 language: node_js
-
 node_js:
-  - "0.10"
-
+- '0.10'
 before_install:
-  - npm install -g jspm
-  - jspm install
-
+- npm install -g jspm
+- jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
+- jspm install
 script:
-  - gulp travis
+- gulp travis
+env:
+  global:
+    secure: SL3dUmpkm2nFY1wFe2O6ihxnAeM4Rqf7J8Fs9AJ57hQOdud0WSFjsKl3jmJgnHrN6vqtAo5m/Y/f9i0SBuk3jVVF70F+2mjR1wyQIm5604L0goAoHa6TwDdCPMBxBQU+Tooe9KX20DPOXrPGORRXRLb/6F1hE1BbbppxAL42OuQ=
