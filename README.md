@@ -1,6 +1,6 @@
 d2-angular for DHIS2
 
-[![Build Status](https://travis-ci.org/Markionium/d2-angular.svg?branch=master)](https://travis-ci.org/Markionium/d2-angular)[![Code Climate](https://codeclimate.com/github/Markionium/d2-angular/badges/gpa.svg)](https://codeclimate.com/github/Markionium/d2-angular)
+[![Build Status](https://travis-ci.org/Markionium/d2-angular.svg?branch=master)](https://travis-ci.org/Markionium/d2-angular) [![Code Climate](https://codeclimate.com/github/Markionium/d2-angular/badges/gpa.svg)](https://codeclimate.com/github/Markionium/d2-angular)
 ========
 
 # Get started
