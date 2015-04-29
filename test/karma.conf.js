@@ -31,7 +31,7 @@ module.exports = function( config ) {
                 },
 
                 "map": {
-                    "angular": "github:angular/bower-angular@1.3.15",
+                    "angular": "npm:angular@1.3.15",
                     "angular-animate": "npm:angular-animate@1.3.15",
                     "angular-aria": "npm:angular-aria@1.3.15",
                     "angular-material": "npm:angular-material@0.8.3",
