@@ -1,17 +1,11 @@
-System.meta = {};
-System.meta['d2'] = {
-  build: false
-};
-System.meta['angular'] = {
-  build: false
-};
-System.meta['angular-animate'] = {
-  build: false
-};
-
 System.config({
   "baseURL": ".",
   "transpiler": "babel",
+  "babelOptions": {
+    "optional": [
+      "runtime"
+    ]
+  },
   "paths": {
     "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
@@ -22,7 +16,31 @@ System.config({
 });
 
 System.config({
-  "map": {
-    "d2.angular": "d2.angular"
+  "meta": {
+    "d2": {
+      "build": false
+    },
+    "angular": {
+      "build": false
+    },
+    "angular-animate": {
+      "build": false
+    }
   }
 });
+
+System.config({
+  "map": {
+    "angular": "github:angular/bower-angular@1.3.15",
+    "angular-mocks": "npm:angular-mocks@1.3.15",
+    "babel": "npm:babel@4.7.16",
+    "babel-runtime": "npm:babel-runtime@4.7.16",
+    "github:jspm/nodelibs-process@0.1.1": {
+      "process": "npm:process@0.10.1"
+    },
+    "npm:babel-runtime@4.7.16": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    }
+  }
+});
+
