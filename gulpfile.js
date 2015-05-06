@@ -32,7 +32,6 @@ gulp.task('clean', function (cb) {
     del(buildDirectory, cb);
 });
 
-
 gulp.task('clean-js', function (cb) {
     var del = require('del');
     del(buildDirectory + '/**.js', cb);
@@ -48,9 +47,9 @@ gulp.task('watch', function () {
 
 gulp.task('jshint', function () {
     return gulp.src([
-            'test/specs/**/*.js',
-            'src/**/*.js'
-        ])
+        'test/specs/**/*.js',
+        'src/**/*.js'
+    ])
         .pipe($.jshint())
         .pipe($.jshint.reporter('jshint-stylish'))
         .pipe($.jshint.reporter('fail'));
@@ -80,35 +79,102 @@ gulp.task('clean-d2-source', function (cb) {
 });
 
 gulp.task('copy-d2-source', ['clean-d2-source'], function () {
-   return gulp.src(['../d2/build/*'], {base: '../d2/build'})
+    return gulp.src(['../d2/build/*'], {base: '../d2/build'})
         .pipe(gulp.dest('jspm_packages/npm/d2'));
 });
 
 gulp.task('build-js', ['clean-js'], function (cb) {
     var builder = new Builder({});
 
-    builder.loadConfig('./config.js')
-        .then(function (config) {
-            console.log('Config loaded..');
+    builder.config({
+        baseURL: './src',
+        transpiler: 'babel',
+        paths: {
+            'd2-angular/*': './*.js',
+            'npm:*': '../jspm_packages/npm/*.js',
+            'github:*': '../jspm_packages/github/*.js'
+        },
+        map: {},
+        meta: {
+            'npm:angular@1.3.15': {
+                build: false
+            },
+            'npm:angular-animate@1.3.15': {
+                build: false
+            },
+            'github:jspm/nodelibs-process@0.1.1': {
+                build: false,
+            },
+            'npm:process@0.10.1/browser': {
+                build: false
+            },
+            'npm:babel-runtime@4.7.16/core-js': {
+                build: false
+            },
+            'npm:babel-runtime@4.7.16/helpers/class-call-check': {
+                build: false
+            },
+            'npm:babel-runtime@4.7.16/helpers/create-class': {
+                build: false
+            },
+            d2: {
+                build: false
+            },
+            babel: {
+                build: false
+            },
+            angular: {
+                build: false
+            },
+            'angular-animate': {
+                build: false
+            }
+        },
+        map: {
+            "angular": "angular",
+            "angular-animate": "angular-animate",
+            "angular-mocks": "angular-mocks",
+            "jquery": "jquery",
+            "angular": {
+                "process": "github:jspm/nodelibs-process@0.1.1"
+            },
+            "babel": "npm:babel@4.7.16"
+        }
+    });
 
-            builder.config({baseURL: './src'});
-
-            var sfxPromise = builder.buildSFX('d2.angular', 'build/d2-angular-sfx.js', {runtime: false})
-                .catch(function (error) {
-                    console.log(error);
-                });
-
-            var normalPromise = builder.build('d2.angular', 'build/d2-angular.js', {runtime: false})
-                .catch(function (error) {
-                    console.log(error);
-                });
-
-            whenAll([sfxPromise, normalPromise])
-                .then(function () {
-                    console.log('Build complete');
-                    cb();
-                });
+    var sfxPromise = builder.buildSFX('d2.angular', 'build/d2-angular-sfx.js', {runtime: false})
+        .then(function (output) {
+            console.log('Modules included in normal systemjs bundle:')
+            output.modules.forEach(function (name) {
+                console.log('  - ' +name);
+            });
+            console.log('');
+        })
+        .catch(function (error) {
+            console.log(error);
         });
+
+    var normalPromise = builder.build('d2.angular', 'build/d2-angular.js', {runtime: false})
+        .then(function (output) {
+            console.log('Modules included in normal systemjs bundle:')
+            output.modules.forEach(function (name) {
+                console.log('  - ' +name);
+            });
+            console.log('');
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    whenAll([sfxPromise, normalPromise])
+        .then(function () {
+            console.log('Build complete');
+            cb();
+        });
+    //})
+    //.catch(function (e) {
+    //    console.log('Unable to load config.js', e);
+    //});
 });
 
 gulp.task('build-sass', function () {
@@ -132,7 +198,7 @@ gulp.task('git:pre-commit', function (cb) {
     var runSequence = require('run-sequence');
 
     //Gulp exists with 0 and for the pre-commit hook to fail we need to exit with a not 0 error code
-    gulp.on('err', function(e){
+    gulp.on('err', function (e) {
         console.log('Pre-commit validate failed');
         process.exit(1);
     });
@@ -151,7 +217,7 @@ gulp.task('docs:clean', function (cb) {
 
 gulp.task('docs', function (cb) {
     var runSequence = require('run-sequence');
-    runSequence('docs:clean', ['docs:app','docs:deps', 'docs:copy-build', 'docs:images'], cb);
+    runSequence('docs:clean', ['docs:app', 'docs:deps', 'docs:copy-build', 'docs:images'], cb);
 });
 
 gulp.task('docs:watch', function () {
@@ -188,7 +254,7 @@ gulp.task('docs:deps', function () {
 });
 
 gulp.task('docs:images', function () {
-    return gulp.src('src/images/**/*.{jpg,png,gif}', { base: './src/images' })
+    return gulp.src('src/images/**/*.{jpg,png,gif}', {base: './src/images'})
         .pipe(gulp.dest(
             [docsDirectory, 'images'].join('/')
         ));
