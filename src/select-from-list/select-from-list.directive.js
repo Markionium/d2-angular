@@ -45,7 +45,7 @@ function selectFromListDirective($q) {
             let selectedListIds = (this.selectedValues || []).map(item => item.id);
 
             this.availableValues = this.availableValues
-                .filter(value => !selectedListIds.includes(value.id));
+                .filter(value => selectedListIds.indexOf(value.id) === -1);
         }
 
         initSource(dataSource) {

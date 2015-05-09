@@ -1,5 +1,3 @@
-import 'babel/browser-polyfill';
-
 import angular from 'angular';
 import 'angular-mocks';
 

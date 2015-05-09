@@ -27,7 +27,8 @@ module.exports = function( config ) {
                 },
 
                 paths: {
-                    "d2-angular/*": "src/*.js"
+                    "d2-angular/*": "src/*.js",
+                    'babel/modules/*': 'babel-runtime/modules/*'
                 },
 
                 "map": {
@@ -37,8 +38,8 @@ module.exports = function( config ) {
                     "angular-material": "npm:angular-material@0.8.3",
                     "angular-mocks": "npm:angular-mocks@1.3.15",
                     "angular-route": "npm:angular-route@1.3.15",
-                    "babel": "npm:babel@4.7.16",
-                    "babel-runtime": "npm:babel-runtime@4.7.16",
+                    "babel": "npm:babel-core@5.2.17",
+                    "babel-runtime": "npm:babel-runtime@5.2.17",
                     "jquery": "github:components/jquery@2.1.3",
                     "github:jspm/nodelibs-process@0.1.1": {
                         "process": "npm:process@0.10.1"
@@ -52,7 +53,7 @@ module.exports = function( config ) {
                     "npm:angular@1.3.15": {
                         "process": "github:jspm/nodelibs-process@0.1.1"
                     },
-                    "npm:babel-runtime@4.7.16": {
+                    "npm:babel-runtime@5.2.17": {
                         "process": "github:jspm/nodelibs-process@0.1.1"
                     }
                 }

@@ -10,7 +10,7 @@ export default function (d2FormFields, models, $log, $q, $timeout) {
                 type: this.getType(modelOptions.type),
                 placeholder: '',
                 property: propertyName,
-                isHeadField: this.formFieldsManager.getHeaderFieldNames().includes(propertyName),
+                isHeadField: this.formFieldsManager.getHeaderFieldNames().indexOf(propertyName) >= 0,
                 required: modelOptions.required,
                 hideWhen: angular.noop,
                 onChange: angular.noop,
@@ -80,9 +80,9 @@ export default function (d2FormFields, models, $log, $q, $timeout) {
 
             //Form manager that is used to manage the forms fields
             const propertyNames = controller.model.modelDefinition.getOwnedPropertyNames()
-                .filter(propertyName => !controller.formFieldsManager
+                .filter(propertyName => controller.formFieldsManager
                     .getFieldNamesToIgnoreOnDisplay()
-                    .includes(propertyName));
+                    .indexOf(propertyName) === -1);
 
             controller.formFields = propertyNames
                 .map(controller.getFieldConfig.bind(controller))
