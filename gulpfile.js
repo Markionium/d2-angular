@@ -14,6 +14,7 @@ var files = [
     //Lib files
     'lib/jQuery/dist/jquery.js',
 
+
     //Src files
     'src/**/*.js',
 
