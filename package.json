@@ -75,7 +75,9 @@
     "dependencies": {
       "angular": "npm:angular@1.4.0",
       "angular-animate": "npm:angular-animate@1.4.0",
+      "angular-formly": "npm:angular-formly@^6.13.0",
       "angular-mocks": "npm:angular-mocks@1.4.0",
+      "api-check": "npm:api-check@^7.3.0",
       "jquery": "github:components/jquery@^2.1.4"
     },
     "devDependencies": {
