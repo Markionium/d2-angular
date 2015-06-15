@@ -10,4 +10,4 @@ script:
 - gulp travis
 env:
   global:
-  - secure: Y+1gxlnruQWWAUALz2ybg8eGE47ND9qH9weFzHnoxaNjVVuuu5ObAIi74GZIST9t/i94pNA8bkmn9yYeQkfcyOXHo5jDyBnRlAnzQUgBTY1DcVD5JmN1pjpQMRE+vz1h3ChFPu6l/4RpmtlfbdBcfVC3aGARrvDui2/rES368aY=
+  - secure: k71geT/bie+47wXJm2pjxyojPYmS29GArBo6y7AXNI64LpmG5hkYyMKqeihHjlwuIM3LHd43pMkCBoo7rYRPHcqs4Pc3k3j9UIsMp2QNe4oV9ioQ2Uu2CCkLxTbAMVHJFPPZqddVdO9ziKXMe5zyxl83gqJEvPOnQ5auWy3bvsc=
