@@ -1,7 +1,7 @@
 import angular from 'angular';
-import d2TableDirective from './d2-table.directive';
-import d2TablePagerDirective from './d2-table-pager.directive';
-import d2TableContextMenuDirective from './d2-table-context-menu.directive';
+import d2TableDirective from 'd2-angular/table/d2-table.directive';
+import d2TablePagerDirective from 'd2-angular/table/d2-table-pager.directive';
+import d2TableContextMenuDirective from 'd2-angular/table/d2-table-context-menu.directive';
 
 import 'd2-angular/config/config.module';
 

@@ -1,5 +1,5 @@
 import angular from 'angular';
-import d2InputDirective from './d2-input.directive';
+import d2InputDirective from 'd2-angular/input/d2-input.directive';
 
 import 'd2-angular/effects/effects.module';
 

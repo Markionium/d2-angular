@@ -1,5 +1,5 @@
 import angular from 'angular';
-import d2ButtonDirective from './d2-button.directive';
+import d2ButtonDirective from 'd2-angular/button/d2-button.directive';
 
 import 'd2-angular/effects/effects.module';
 

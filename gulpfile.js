@@ -91,16 +91,16 @@ gulp.task('build-js', ['clean-js'], function (cb) {
         baseURL: './src',
         transpiler: 'babel',
         paths: {
-            'd2-angular/*': './*.js',
-            'npm:*': '../jspm_packages/npm/*.js',
+            '*': '*.js',
+            'd2-angular/*': './src/d2-angular/*.js',
+            'npm:*': './jspm_packages/npm/*.js',
             'github:*': '../jspm_packages/github/*.js'
         },
-        map: {},
         meta: {
-            'npm:angular@1.3.15': {
+            'npm:angular@1.4.0': {
                 build: false
             },
-            'npm:angular-animate@1.3.15': {
+            'npm:angular-animate@1.4.0': {
                 build: false
             },
             'github:jspm/nodelibs-process@0.1.1': {
@@ -109,13 +109,16 @@ gulp.task('build-js', ['clean-js'], function (cb) {
             'npm:process@0.10.1/browser': {
                 build: false
             },
-            'npm:babel-runtime@5.2.17/core-js': {
+            'npm:babel-runtime@5.5.8/core-js': {
                 build: false
             },
-            'npm:babel-runtime@5.2.17/helpers/class-call-check': {
+            'npm:babel-runtime@5.5.8/helpers/class-call-check': {
                 build: false
             },
-            'npm:babel-runtime@5.2.17/helpers/create-class': {
+            'npm:babel-runtime@5.5.8/helpers/create-class': {
+                build: false
+            },
+            'angular-formly': {
                 build: false
             },
             d2: {
@@ -132,14 +135,14 @@ gulp.task('build-js', ['clean-js'], function (cb) {
             }
         },
         map: {
-            "angular": "angular",
-            "angular-animate": "angular-animate",
+            "d2-angular/angular": "angular",
+            "angular-animate.js": "angular-animate",
             "angular-mocks": "angular-mocks",
             "jquery": "jquery",
             "angular": {
                 "process": "github:jspm/nodelibs-process@0.1.1"
             },
-            "babel": "npm:babel-core@5.2.17"
+            "babel": "npm:babel-core@5.5.8"
         }
     });
 

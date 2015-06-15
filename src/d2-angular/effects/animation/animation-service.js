@@ -1,5 +1,5 @@
 import angular from 'angular';
-import effects from '../effects';
+import effects from 'd2-angular/effects/effects';
 
 let isFunction = angular.isFunction;
 

@@ -29,7 +29,7 @@ module.exports = function( config ) {
                 paths: {
                     "github:*": "jspm_packages/github/*",
                     "npm:*": "jspm_packages/npm/*",
-                    "d2-angular/*": "src/*"
+                    "d2-angular/*": "src/d2-angular/*"
                 },
 
                 "map": {

@@ -1,0 +1,16 @@
+import angular from 'angular';
+import 'angular-formly';
+
+import d2FormDirective from 'd2-angular/form/d2-form-for-model.directive';
+import d2FormForModelFieldType from 'd2-angular/form/d2-form-model-field-type.directive';
+import d2FormFields from 'd2-angular/form/d2-form-fields.service';
+
+import FormlyFieldsForModelService from 'd2-angular/form/d2-form-formly-fields-for-model.service';
+
+import 'd2-angular/input/d2-input.module';
+
+//Build the angular module
+angular.module('d2-angular.form', ['formly', 'd2-angular.input'])
+    .directive('d2FormForModel', d2FormDirective)
+    .directive('d2FormForModelFieldType', d2FormForModelFieldType)
+    .service('d2FormFields', d2FormFields);

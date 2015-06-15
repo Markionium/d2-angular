@@ -1,5 +1,5 @@
 import angular from 'angular';
-import Animation from './animation/animation-service';
+import Animation from 'd2-angular/effects/animation/animation-service';
 
 import 'd2-angular/config/config.module';
 
