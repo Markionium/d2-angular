@@ -46,10 +46,6 @@ function d2InputDirective(INPUT_REQUIRED_ICON_CLASS, $parse) {
         inputElement.on('blur', function (event) {
             angular.element(event.target.parentNode).removeClass('d2-input-focused');
         });
-
-        if (inputElement.attr('required') || $parse(inputElement.attr('ng-required'))(scope)) {
-            element.find('label').append('<i class="' + INPUT_REQUIRED_ICON_CLASS + '"></i>');
-        }
     }
 
     function getInputElement(element) {

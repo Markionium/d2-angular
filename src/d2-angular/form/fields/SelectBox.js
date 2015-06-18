@@ -7,6 +7,11 @@ class SelectBox extends Field {
         super(options);
 
         this.type = 'select';
+
+        this.templateOptions.options = options.templateOptions && options.templateOptions.options || options.constants || [];
+
+        this.templateOptions.options = this.templateOptions.options
+            .map(constant => ({name: constant, value: constant}));
     }
 }
 

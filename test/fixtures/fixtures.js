@@ -284,7 +284,8 @@
             "max": 2147483647,
             "owner": true,
             "unique": false,
-            "writable": true
+            "writable": true,
+            "referenceType": "legendSet"
         },
         "categoryCombo": {
             "persisted": true,
