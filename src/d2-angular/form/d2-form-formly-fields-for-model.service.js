@@ -2,7 +2,7 @@
 
 import {fieldTypeClasses, typeToFieldMap} from 'd2-angular/form/fields/fields';
 
-const fieldNamesToIgnoreOnDisplay = ['id', 'publicAccess', 'created', 'lastUpdated', 'user'];
+const fieldNamesToIgnoreOnDisplay = ['id', 'publicAccess', 'created', 'lastUpdated', 'user', 'userGroupAccesses', 'attributeValues'];
 
 class FormlyFieldsForModelService {
 
@@ -27,6 +27,7 @@ class FormlyFieldsForModelService {
         let onlyUsableFieldTypes = modelValidation => fieldTypeClasses.get(typeToFieldMap.get(modelValidation.type));
         let onlyWritableProperties = modelValidation => modelValidation.writable;
         let onlyPersistedProperties = modelValidation => modelValidation.persisted;
+        let onlyOwnedProperties = modelValidation => modelValidation.owner;
         let toArrayOfValidationObjects = fieldName => {
             let modelValidation = Object.create(model.modelDefinition.modelValidations[fieldName]);
             modelValidation.fieldName = fieldName;
@@ -37,6 +38,7 @@ class FormlyFieldsForModelService {
             .map(toArrayOfValidationObjects)
             .filter(onlyWritableProperties)
             .filter(onlyPersistedProperties)
+            .filter(onlyOwnedProperties)
             .filter(removeFieldsThatShouldNotBeDisplayed)
             .filter(onlyUsableFieldTypes)
             .map(modelValidation => getFieldClassInstance.bind(this)(modelValidation, fieldOverrides));

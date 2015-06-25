@@ -1,5 +1,7 @@
 'use strict';
 
+import {TEXT} from 'd2-angular/form/fields/fields';
+
 import FormlyFieldsForModelService from 'd2-angular/form/d2-form-formly-fields-for-model.service';
 
 import angular from 'angular';
@@ -11,7 +13,9 @@ class D2FormFieldsManager {
 
         this.fieldsForModelService = fieldsForModelService; // new FormlyFieldsForModelService(fieldsToIgnore, models);
 
-        this.fieldOverrides = {};
+        this.fieldOverrides = {
+            description: {type: TEXT}
+        };
 
         this.headerFields = [];
     }

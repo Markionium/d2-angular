@@ -5,7 +5,7 @@ import 'angular-mocks';
 
 import FormlyFieldsForModelService from 'd2-angular/form/d2-form-formly-fields-for-model.service';
 import D2FormFieldsManager from 'd2-angular/form/d2-form-field-manager';
-import {SELECT} from 'd2-angular/form/fields/fields';
+import {SELECT, TEXT} from 'd2-angular/form/fields/fields';
 
 describe('D2FormFieldsManager', () => {
     let manager;
@@ -41,6 +41,7 @@ describe('D2FormFieldsManager', () => {
             manager.fieldsForModelService.getFormlyFieldsForModel = sinon.spy();
 
             let overrideConfig = {
+                description: {type: TEXT},
                 type: {
                     type: SELECT,
                     templateOptions: {
@@ -72,7 +73,7 @@ describe('D2FormFieldsManager', () => {
         it('should ask for the fields with the passed model', () => {
             manager.getFormFieldsForModel(modelMock);
 
-            expect(manager.fieldsForModelService.getFormlyFieldsForModel).to.be.calledWith(modelMock, {});
+            expect(manager.fieldsForModelService.getFormlyFieldsForModel).to.be.calledWith(modelMock, {description: {type: TEXT}});
         });
     });
 

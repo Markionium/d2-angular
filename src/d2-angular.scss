@@ -4,23 +4,23 @@
 @import "susy";
 
 /* General */
-@import "variables";
-@import "mixins";
-@import "animations";
-@import "layout";
+@import "d2-angular/variables";
+@import "d2-angular/mixins";
+@import "d2-angular/animations";
+@import "d2-angular/layout";
 
 /* Components */
-@import "button/button";
-@import "input/input";
-@import "table/table";
-@import "sidenav/sidenav";
-@import "header/header";
-@import "select-from-list/select-from-list";
+@import "d2-angular/button/button";
+@import "d2-angular/input/input";
+@import "d2-angular/table/table";
+@import "d2-angular/sidenav/sidenav";
+@import "d2-angular/header/header";
+@import "d2-angular/select-from-list/select-from-list";
 
 /* Angular */
-@import "input/ng-form";
+@import "d2-angular/input/ng-form";
 
-@import "base";
+@import "d2-angular/base";
 
 html {
   font-size: $default-font-size;

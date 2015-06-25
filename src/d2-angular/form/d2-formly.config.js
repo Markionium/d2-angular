@@ -27,6 +27,20 @@ export default function configureAngularFormly(formlyConfig) {
     });
 
     formlyConfig.setType({
+        name: 'text',
+        template: `
+            <textarea
+              ng-model="model[options.key]"
+              ng-maxlength="to.maxLength"
+              ng-minlength="to.minLength"
+            ></textarea>`,
+        defaultOptions: {
+            wrapper: ['wrapper-label'],
+            className: 'd2-field-input'
+        }
+    });
+
+    formlyConfig.setType({
         name: 'select',
         template: `<select ng-model="model[options.key]"></select>`,
         defaultOptions(options) {
@@ -46,10 +60,24 @@ export default function configureAngularFormly(formlyConfig) {
 
     formlyConfig.setType({
         name: 'checkbox',
-        template: `<input type="checkbox" ng-model="model[options.key]" />`,
+        template: `
+            <d2-checkbox ng-model="model[options.key]"></d2-checkbox>
+        `,
         defaultOptions: {
             wrapper: ['wrapper-label'],
             className: 'd2-field-checkbox'
+        }
+    });
+
+    formlyConfig.setType({
+        name: 'multiselect',
+        template: `
+            <div>
+                <label>{{to.label}}<i ng-if="to.required" class="fa fa-asterisk input-required-icon"></i></label>
+                <d2-select-from-list ng-model="model[options.key]" available-source="options.data.source" reference-type="options.data.referenceType"></d2-select-from-list>
+            </div>`,
+        defaultOptions: {
+            className: 'd2-field-multiselect'
         }
     });
 }

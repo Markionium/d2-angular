@@ -52,21 +52,21 @@ describe('D2 Form: d2-formly-fields-for-model service', () => {
     });
 
     it('should return the correct amount of fields', () => {
-        expect(service.getFormlyFieldsForModel(modelMock).length).to.equal(15);
+        expect(service.getFormlyFieldsForModel(modelMock).length).to.equal(17);
     });
 
     it('should return the fields in the formly structure', () => {
         let firstFormlyField = service.getFormlyFieldsForModel(modelMock)[0];
 
-        expect(firstFormlyField.key).to.equal('zeroIsSignificant');
-        expect(firstFormlyField.type).to.equal('checkbox');
+        expect(firstFormlyField.key).to.equal('aggregationLevels');
+        expect(firstFormlyField.type).to.equal('multiselect');
     });
 
     it('should return the correct templateOptions', () => {
         let firstFormlyField = service.getFormlyFieldsForModel(modelMock)[0];
 
-        expect(firstFormlyField.templateOptions.label).to.equal('zero_is_significant');
-        expect(firstFormlyField.templateOptions.required).to.equal(true);
+        expect(firstFormlyField.templateOptions.label).to.equal('aggregation_levels');
+        expect(firstFormlyField.templateOptions.required).to.equal(false);
     });
 
     it('should set the minLength property', () => {

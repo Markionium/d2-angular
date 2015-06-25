@@ -179,6 +179,7 @@ $input-label-color-light: rgba(255,255,255, 0.3);
     input[type="password"],
     input[type="number"],
     input[type="email"],
+    textarea,
     select {
       border-color: $primary-bg-color;
       border-width: 0 0 2px 0;
@@ -188,5 +189,35 @@ $input-label-color-light: rgba(255,255,255, 0.3);
         border-color: $secondary-hover-text-color;
       }
     }
+  }
+}
+
+.d2-field-checkbox {
+  input[type=checkbox] {
+    position: absolute;
+    left: -9999px;
+  }
+
+  label {
+    padding-bottom: 2rem;
+    z-index: 2;
+  }
+}
+
+.d2-checkbox:before {
+  content: "\f096";
+  display: block;
+  font-size: 2rem;
+  padding: .5rem 0;
+  z-index: 1;
+  color: rgba(0, 0, 0, 0.6);
+  transform: rotate3D(0, 0, 1, 180deg) rotate3D(0, 1, 0, 180deg) rotate3D(1, 0, 0, 180deg);
+  transition: transform .4s, color .4s;
+
+  .d2-field-checkbox input:checked + & {
+    content: "\f14a";
+    color: #3489c8;
+    transform: rotate3D(0, 0, 1, 0deg) rotate3D(0, 1, 0, 0deg) rotate3D(1, 0, 0, 0deg);
+    transition: transform .4s, color .4s;
   }
 }

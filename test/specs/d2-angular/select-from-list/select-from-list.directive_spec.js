@@ -37,7 +37,8 @@ describe('D2 Select from list: Directive:', () => {
         element = $compile(element)(scope);
         scope.$digest();
 
-        controller = element.controller('selectFromList');
+        controller = element.controller('d2SelectFromList');
+        element = element.children().first();
     }));
 
     it('should have the d2-select-from-list class', () => {
@@ -45,19 +46,9 @@ describe('D2 Select from list: Directive:', () => {
     });
 
     describe('basic structure', () => {
-        it('should have select lists for available/selected items', () => {
-            expect(element.find('div.available select').length).to.equal(1);
-            expect(element.find('div.selected select ').length).to.equal(1);
-        });
-
         it('should have an ul lists for selected and available items', () => {
             expect(element.find('div.available ul').length).to.equal(1);
             expect(element.find('div.selected ul ').length).to.equal(1);
-        });
-
-        it('should hide the select elements', () => {
-            expect(element.find('div.available select').hasClass('ng-hide')).to.be.true;
-            expect(element.find('div.selected select ').hasClass('ng-hide')).to.be.true;
         });
     });
 
@@ -68,10 +59,11 @@ describe('D2 Select from list: Directive:', () => {
         beforeEach(() => {
             availableSelectItems = element.find('div.available select');
             availableUlItems = element.find('div.available ul');
+            $rootScope.$apply();
         });
 
         it('should have added values to the available list', () => {
-            expect(availableSelectItems.children('option').length).to.equal(4);
+            expect(controller.availableList.length).to.equal(4);
         });
 
         it('should have added the values to the ul available list', () => {
@@ -84,12 +76,11 @@ describe('D2 Select from list: Directive:', () => {
         let availableSelectItems;
 
         beforeEach(() => {
-            selectedSelectItems = element.find('div.selected ul');
-
             scope.selectedItems = [availableDataItems[2]];
             scope.$apply();
 
-            availableSelectItems = element.find('div.available select');
+            selectedSelectItems = element.find('div.selected ul');
+            availableSelectItems = element.find('div.available ul');
 
         });
 
@@ -98,7 +89,7 @@ describe('D2 Select from list: Directive:', () => {
         });
 
         it('should not show the item in the available items list', () => {
-            expect(availableSelectItems.children('option').length).to.equal(3);
+            expect(availableSelectItems.children('li').length).to.equal(3);
         });
 
         it('should move a value to the other list when double clicked', () => {
@@ -107,8 +98,8 @@ describe('D2 Select from list: Directive:', () => {
             firstDataElement.dblclick();
             scope.$apply();
 
-            expect(availableSelectItems.children('option').length).to.equal(2);
-            expect(scope.selectedItems.length).to.equal(2);
+            expect(availableSelectItems.children('li').length).to.equal(2);
+            expect(selectedSelectItems.children('li').length).to.equal(2);
         });
 
         it('should move a selected item back to the available list', () => {
@@ -117,8 +108,84 @@ describe('D2 Select from list: Directive:', () => {
             firstDataElement.dblclick();
             scope.$apply();
 
-            expect(availableSelectItems.children('option').length).to.equal(4);
+            expect(availableSelectItems.children('li').length).to.equal(4);
             expect(scope.selectedItems.length).to.equal(0);
         });
+    });
+
+    describe('selecting available items', () => {
+        let firstDataElement;
+
+        beforeEach(() => {
+            firstDataElement = element.find('div.available li').first();
+        });
+
+        it('should add the clicked available items id to the availableSelectedList', () => {
+            firstDataElement.click();
+            scope.$apply();
+
+            expect(controller.availableSelected.has('umC9U5YGDq4')).to.be.true;
+        });
+
+        it('should remove the clicked available item from the availableSelectedList', () => {
+            controller.availableSelected.add('umC9U5YGDq4');
+
+            firstDataElement.click();
+            scope.$apply();
+
+            expect(controller.availableSelected.has('umC9U5YGDq4')).to.be.false;
+        });
+
+        it('should add a class to the li for the selected element', () => {
+            let firstDataElement = element.find('div.available li').first();
+
+            firstDataElement.click();
+            scope.$apply();
+
+            firstDataElement = element.find('div.available li').first();
+
+            expect(firstDataElement.hasClass('d2-select-list-item-selected')).to.be.true;
+        });
+
+        it('should remove a class to the li for the selected element', () => {
+            let firstDataElement = element.find('div.available li').first();
+            controller.availableSelected.add('umC9U5YGDq4');
+
+            firstDataElement.click();
+            scope.$apply();
+
+            firstDataElement = element.find('div.available li').first();
+            expect(firstDataElement.hasClass('d2-select-list-item-selected')).to.be.false;
+        });
+    });
+
+    describe('selecting selected items', () => {
+        let firstDataElement;
+
+        beforeEach(() => {
+            scope.selectedItems = [availableDataItems[2]];
+            scope.$apply();
+
+            firstDataElement = element.find('div.selected li').first();
+        });
+
+        it('should add the clicked selected items id to the selectedSelectedList', () => {
+            firstDataElement.click();
+            scope.$apply();
+
+            expect(controller.selectedSelected.has('f2a9eOzfpR7')).to.be.true;
+        });
+
+        it('should remove the clicked selected item from the selectedSelectedList', () => {
+            controller.selectedSelected.add('f2a9eOzfpR7');
+
+            firstDataElement.click();
+            scope.$apply();
+
+            expect(controller.selectedSelected.has('f2a9eOzfpR7')).to.be.false;
+        });
+
+        //TODO: add class checks
+        //TODO: remove from selectedlists after double clicking
     });
 });

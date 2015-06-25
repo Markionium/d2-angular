@@ -7,9 +7,6 @@ export default function (d2FormFields, models, $log, $q) {
 
             controller.headFormFields = controller.manager.getHeaderFieldsForModel(controller.model);
             controller.normalFormFields = controller.manager.getNonHeaderFieldsForModel(controller.model);
-
-            console.log(controller.headFormFields);
-            console.log(controller.normalFormFields);
         }
     }
 

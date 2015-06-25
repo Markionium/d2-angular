@@ -1,8 +1,9 @@
 import angular from 'angular';
 
-function d2SelectFromListActions($q) {
+function d2SelectFromListActions($timeout) {
     return {
         restrict: 'E',
+        require: '^d2SelectFromList',
         template: `
             <d2-button class="d2-fab" icon="angle-down"
                 ng-click="actions.selectedAvailableToSelected($event)"></d2-button>
@@ -14,10 +15,8 @@ function d2SelectFromListActions($q) {
         link: postLink
     };
 
-    function postLink($scope) {
-        let selectListController = $scope.selectFromListCtrl;
-
-        $scope.actions = {
+    function postLink(scope, element, attr, selectFromListController) {
+        scope.actions = {
             allToSelected: allToSelected,
             allToAvailable: allToAvailable,
             selectedAvailableToSelected: selectedAvailableToSelected,
@@ -25,27 +24,35 @@ function d2SelectFromListActions($q) {
         };
 
         function allToSelected() {
-            selectListController.availableValues.forEach(value => selectListController.addSelectedItem(value));
+            selectFromListController.isLoading = true;
+
+            //Execute on the next cycle because it is potentially heavy
+            $timeout(function () {
+                selectFromListController.addSelected(selectFromListController.availableList);
+            });
         }
 
         function allToAvailable() {
-            selectListController.selectedValues.forEach(value => selectListController.removeSelectedItem(value));
+            selectFromListController.isLoading = true;
+
+            //Execute on the next cycle because it is potentially heavy
+            $timeout(function () {
+                selectFromListController.removeSelected(selectFromListController.selectedList);
+            });
         }
 
         function selectedAvailableToSelected() {
-            selectListController.availableValues
-                .filter(value => selectListController.availableValuesSelected.has(value.id))
-                .forEach(value => selectListController.addSelectedItem(value));
+            let selectedItems = selectFromListController.availableList
+                .filter(value => selectFromListController.availableSelected.has(value.id));
 
-            selectListController.availableValuesSelected.clear();
+            selectFromListController.addSelected(selectedItems);
         }
 
         function selectedSelectedToAvailable() {
-            selectListController.selectedValues
-                .filter(value => selectListController.selectedValuesSelected.has(value.id))
-                .forEach(value => selectListController.removeSelectedItem(value));
+            let selectedItems = selectFromListController.selectedList
+                .filter(value => selectFromListController.selectedSelected.has(value.id))
 
-            selectListController.selectedValuesSelected.clear();
+            selectFromListController.removeSelected(selectedItems);
         }
     }
 }

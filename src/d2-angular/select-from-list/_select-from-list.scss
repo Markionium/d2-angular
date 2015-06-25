@@ -1,13 +1,27 @@
 .d2-select-from-list {
   @extend .container;
   overflow: visible;
+  position: relative;
+  margin-top: 1rem;
 
-  & > div.available,
-  & > div.selected {
+  & div.available,
+  & div.selected {
     position: relative;
+
+    &.d2-select-from-list-search ul {
+      max-height: 13rem;
+      min-height: 13rem;
+    }
 
     header {
       padding: .5rem 1rem;
+    }
+
+    input.search {
+      width: 100%;
+      height: 2rem;
+      padding-left: .5rem;
+      outline: none;
     }
 
     ul {
@@ -25,7 +39,6 @@
         background: rgba(0, 100, 0, .5);
         position: absolute;
         display: block;
-        height: 100%;
         width: 100%;
         font: normal normal normal 14px/1 FontAwesome;
         color: white;
@@ -57,28 +70,48 @@
     }
   }
 
-  & > div.available {
+  & div.available {
     @include breakpoint($large-screen-min) {
       @include span(4 of 9);
     }
-
-    li.ng-leave.ng-leave-active,
-    li.ng-move,
-    li.ng-enter {
-      transform: translateX(0%);
-      @include animation(moveOutAvailable 0.2s ease forwards, openSpace 0.3s 0.2s ease reverse);
-    }
-
-    li.ng-leave,
-    li.ng-move.ng-move-active,
-    li.ng-enter.ng-enter-active {
-      max-height: 50px;
-      transform: translateX(100%);
-      @include animation(openSpace 0.2s ease forwards, moveInAvailable 0.3s 0.2s ease forwards);
-    }
+  //
+  //  li.ng-leave.ng-leave-active,
+  //  li.ng-move,
+  //  li.ng-enter {
+  //    transform: translateX(0%);
+  //    @include animation(moveOutAvailable 0.2s ease forwards, openSpace 0.3s 0.2s ease reverse);
+  //  }
+  //
+  //  li.ng-leave,
+  //  li.ng-move.ng-move-active,
+  //  li.ng-enter.ng-enter-active {
+  //    max-height: 50px;
+  //    transform: translateX(100%);
+  //    @include animation(openSpace 0.2s ease forwards, moveInAvailable 0.3s 0.2s ease forwards);
+  //  }
   }
 
-  & > div.actions {
+  & div.selected {
+    @include breakpoint($large-screen-min) {
+      @include span(4 of 9 last);
+    }
+  //
+  //  li.ng-leave.ng-leave-active,
+  //  li.ng-move,
+  //  li.ng-enter {
+  //    @include animation(moveOutSelected 0.2s ease forwards, openSpace 0.3s 0.2s ease reverse);
+  //  }
+  //
+  //  li.ng-leave,
+  //  li.ng-move.ng-move-active,
+  //  li.ng-enter.ng-enter-active {
+  //    max-height: 50px;
+  //    transform: translateX(-100%);
+  //    @include animation(openSpace 0.2s ease forwards, moveInSelected 0.3s 0.2s ease forwards);
+  //  }
+  }
+
+  & div.actions {
     text-align: center;
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -104,23 +137,28 @@
     }
   }
 
-  & > div.selected {
-    @include breakpoint($large-screen-min) {
-      @include span(4 of 9 last);
-    }
+  .d2-mask {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, .75);
+    z-index: 100;
+  }
+}
 
-    li.ng-leave.ng-leave-active,
-    li.ng-move,
-    li.ng-enter {
-      @include animation(moveOutSelected 0.2s ease forwards, openSpace 0.3s 0.2s ease reverse);
-    }
+.d2-field-multiselect {
+  padding-top: 1em;
+  margin-top: 1em;
 
-    li.ng-leave,
-    li.ng-move.ng-move-active,
-    li.ng-enter.ng-enter-active {
-      max-height: 50px;
-      transform: translateX(-100%);
-      @include animation(openSpace 0.2s ease forwards, moveInSelected 0.3s 0.2s ease forwards);
+  label {
+    color: rgba(0, 0, 0, 0.3);
+  }
+
+  &:hover {
+    label {
+      color: #3489c8;
     }
   }
 }
